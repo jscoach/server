@@ -22,10 +22,18 @@ to try to integrate Webpack with the Asset Pipeline and was curious about
 
 #### Running in development
 
-Install the [`invoker`](http://invoker.codemancers.com) or
-[`foreman`](https://github.com/ddollar/foreman) gem. Both use the same `Procfile`, but
-Invoker supports .dev domains.  
-After setting up the database run: `invoker start`
+Install the [`foreman`](https://github.com/ddollar/foreman) gem.
+Running `foreman start` with start the database for you and the rails server.
+You can run processes individually using `foreman start web` and `foreman start postgresql`.
+
+Credentials and other sensitive information are stored in the `.env` file.
+Duplicate the existing `.env.example` file and fill the variables.
+To load these variables when you run rails commands, prefix them with `foreman run`.
+For example, to start the rails console type the following command:
+
+```shell
+foreman run rails c
+```
 
 #### Setting up a production environment
 
