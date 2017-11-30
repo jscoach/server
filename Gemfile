@@ -32,6 +32,7 @@ gem 'slack-notifier' # Slack integration for the `exception_notification` gem
 gem 'redcarpet' # The safe Markdown parser, reloaded
 gem 'whenever', require: false # Cron jobs
 gem 'twitter', require: false
+gem 'algoliasearch-rails'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
