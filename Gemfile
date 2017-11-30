@@ -57,4 +57,8 @@ group :test do
   gem 'fakeweb', github: "chrisk/fakeweb" # A test helper for faking responses to web requests
 end
 
+group :production do
+  gem 'webpacker', require: false # Add webpacker so Heroku runs yarn install automatically
+end
+
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
