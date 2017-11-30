@@ -24,28 +24,6 @@ describe "PackageDecorator" do
     pkg.description.must_equal "What is it? - a react render."
   end
 
-  it "humanizes star counters" do
-    pkg = Package.new(stars: 0).decorate
-    pkg.humanized_stars.must_equal "0 stars"
-
-    pkg = Package.new(stars: 1).decorate
-    pkg.humanized_stars.must_equal "1 star"
-
-    pkg = Package.new(stars: 2).decorate
-    pkg.humanized_stars.must_equal "2 stars"
-  end
-
-  it "humanizes last month downloads counters" do
-    pkg = Package.new(last_month_downloads: 0).decorate
-    pkg.humanized_last_month_downloads.must_equal "0 installs"
-
-    pkg = Package.new(last_month_downloads: 1).decorate
-    pkg.humanized_last_month_downloads.must_equal "1 install"
-
-    pkg = Package.new(last_month_downloads: 2).decorate
-    pkg.humanized_last_month_downloads.must_equal "2 installs"
-  end
-
   describe "to_tweet" do
     it "generates a tweet about the package" do
       pkg = Package.new(name: "interpolate-components", repo: "Automattic/interpolate-components")

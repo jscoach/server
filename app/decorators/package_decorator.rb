@@ -18,30 +18,6 @@ class PackageDecorator < Draper::Decorator
     end
   end
 
-  def humanized_collections
-    object.collections.to_sentence.presence || "Other"
-  end
-
-  def humanized_stars
-    "#{ h.humanized_number object.stars } #{ "star".pluralize(object.stars) }"
-  end
-
-  def humanized_last_month_downloads
-    "#{ h.humanized_number object.last_month_downloads } #{ "install".pluralize(object.last_month_downloads) }"
-  end
-
-  def filters
-    object.filters.as_json(only: [:name, :slug])
-  end
-
-  def relative_modified_at
-    h.relative_timestamp modified_at
-  end
-
-  def relative_published_at
-    h.relative_timestamp published_at
-  end
-
   # @return A tweet about the package or nil if there isn't a description
   def to_tweet(linkLength: 23, tweetMaxLength: 280)
     return if self.description.include? DESCRIPTION_UNAVAILABLE
