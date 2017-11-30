@@ -6,7 +6,7 @@ require 'rails/all'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-module Jscoach
+module JsCoach
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.1
@@ -14,5 +14,11 @@ module Jscoach
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
+
+    # Auto load service objects
+    config.autoload_paths << Rails.root.join("app/services")
+
+    # Additional app-specific configs
+    config.app = RecursiveOpenStruct.new YAML.load_file("#{ Rails.root }/config/application.yml")
   end
 end

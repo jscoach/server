@@ -16,8 +16,9 @@
 /tmp/*
 !/log/.keep
 !/tmp/.keep
-
 /node_modules
 /yarn-error.log
-
 .byebug_history
+
+# Credentials and other sensitive information
+.env

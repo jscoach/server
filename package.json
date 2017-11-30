@@ -1,5 +1,10 @@
 {
   "name": "jscoach",
   "private": true,
-  "dependencies": {}
+  "dependencies": {
+    "cheerio": "^0.22.0",
+    "github-markdown-css-with-rem": "github:dmfrancisco/github-markdown-css-with-rem",
+    "marky-markdown": "github:dmfrancisco/marky-markdown",
+    "normalize.css": "^7.0.0"
+  }
 }

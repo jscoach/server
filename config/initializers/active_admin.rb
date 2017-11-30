@@ -4,7 +4,7 @@ ActiveAdmin.setup do |config|
   # Set the title that is displayed on the main layout
   # for each of the active admin pages.
   #
-  config.site_title = "Jscoach"
+  config.site_title = "JS.coach"
 
   # Set the link url for the title. For example, to take
   # users to your main site. Defaults to no link.
@@ -33,7 +33,7 @@ ActiveAdmin.setup do |config|
   #   config.default_namespace = false
   #
   # Default:
-  # config.default_namespace = :admin
+  config.default_namespace = :sudo
   #
   # You can customize the settings for each namespace by using
   # a namespace block. For example, to change the site title
@@ -112,14 +112,14 @@ ActiveAdmin.setup do |config|
   # roots for each namespace.
   #
   # Default:
-  # config.root_to = 'dashboard#index'
+  config.root_to = 'packages#index'
 
   # == Admin Comments
   #
   # This allows your users to comment on any resource registered with Active Admin.
   #
   # You can completely disable comments:
-  # config.comments = false
+  config.comments = false
   #
   # You can change the name under which comments are registered:
   # config.comments_registration_name = 'AdminComment'
@@ -193,7 +193,7 @@ ActiveAdmin.setup do |config|
   # and feel.
   #
   # To load a stylesheet:
-  #   config.register_stylesheet 'my_stylesheet.css'
+  config.register_stylesheet 'base.css'
   #
   # You can provide an options hash for more control, which is passed along to stylesheet_link_tag():
   #   config.register_stylesheet 'my_print_stylesheet.css', media: :print
@@ -290,4 +290,12 @@ ActiveAdmin.setup do |config|
   # You can inherit it with own class and inject it for all resources
   #
   # config.order_clause = MyOrderClause
+
+  # == Factories & Components
+  #
+  # Customize Active Admin with Factories and Components
+  #
+  config.view_factory.page = JsCoach::Page
+  config.view_factory.index_page = JsCoach::Index
+  config.view_factory.title_bar = JsCoach::TitleBar
 end

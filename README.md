@@ -1,36 +1,147 @@
-<img alt="jess" src="/project/public/banner.png" width="414" height="114">
+<p align="center">
+  <img alt="jess" src="https://js.coach/gestalt.png" width="190" height="190">
+</p>
 
-Libraries come and go. The ecosystem evolves rapidly, and that's a good thing. But it means you can't rely on your bookmarks. Google may not be your best friend either, since it focuses on popular results — established solutions that may not be the best fit for your project.
+This is the code that powers the website and scheduled scripts. It uses [Rails](http://rubyonrails.org/)
+with [Webpack](https://webpack.github.io/), [Babel](https://babeljs.io/),
+[PostCSS](https://github.com/postcss/postcss) and [React](https://facebook.github.io/react/).  
 
-This website indexes new packages and is updated roughly once per day, by using both automated scripts and manual curation. It is a complete rewrite and grown-up version of [React.parts](https://github.com/madebyform/react-parts), a tiny project that started in April 2015. Even if you are implementing your own solution for your particular problem, this can be a good place to find interesting code to learn from.
+This stack was chosen for no particular reason :sweat_smile: Being a side-project, I wanted
+to try to integrate Webpack with the Asset Pipeline and was curious about
+[CSS modules](https://github.com/css-modules/css-modules). A lot can still be improved including:
+
+- Use [Redux](http://redux.js.org/) instead of URL and contexts to handle global state
+- Test React components using [Enzyme](http://airbnb.io/enzyme/) or similar
+- Share variables across CSS files and still be able to use PostCSS plugins like `pxtorem`
+
+<br>
 
 ---
 
-If you come across any issue, please feel free to report it [here](https://github.com/dmfrancisco/JS.coach/issues).  
-Feature suggestions and other kinds of feedback are also welcomed.
+### Setting up JS.coach
 
-### Contributors
+#### Running in development
 
-This project exists thanks to all the people who contribute, either submitting new packages or with code. [Contribute](CONTRIBUTING.md).
+Install the [`invoker`](http://invoker.codemancers.com) or
+[`foreman`](https://github.com/ddollar/foreman) gem. Both use the same `Procfile`, but
+Invoker supports .dev domains.  
+After setting up the database run: `invoker start`
 
-<a href="graphs/contributors"><img src="https://opencollective.com/js-coach/contributors.svg?width=890" /></a>
+#### Setting up a production environment
 
-### Backers
+The app is hosted on DigitalOcean and the one-click _Ruby on Rails on Ubuntu 14.04
+(Postgres, Nginx, Unicorn)_ droplet was used. It includes Ruby v2.2.1, installed with RVM,
+and Rails v4.2.4.
 
-Thank you to all our backers! [Become a backer](https://opencollective.com/js-coach#backer).
+Capistrano is used for deployment. You should enable passwordless sudo for the `rails`
+user by adding the following above the `#includedir` line:
 
-<a href="https://opencollective.com/js-coach#backers" target="_blank"><img src="https://opencollective.com/js-coach/backers.svg?width=890"></a>
+```shell
+rails ALL=(ALL) NOPASSWD:ALL
+```
 
-### Sponsors
+After that, set any required environment variables inside the user's `.bashrc` file. Be sure
+to put them before the comment that says "If not running interactively, don't do anything":
 
-Support JS.coach by becoming a sponsor. Your logo will show up here with a link to your site. [Become a sponsor](https://opencollective.com/js-coach#sponsor).
+```shell
+export APP_DATABASE_NAME="..."
+export APP_DATABASE_USERNAME="..."
+export APP_DATABASE_PASSWORD="..."
+export SECRET_KEY_BASE="..."
+export GITHUB_USERNAME="..."
+```
 
-<a href="https://opencollective.com/js-coach/sponsor/1/website" target="_blank"><img src="https://opencollective.com/js-coach/sponsor/1/avatar.svg"></a>
-<a href="https://opencollective.com/js-coach/sponsor/2/website" target="_blank"><img src="https://opencollective.com/js-coach/sponsor/2/avatar.svg"></a>
-<a href="https://opencollective.com/js-coach/sponsor/3/website" target="_blank"><img src="https://opencollective.com/js-coach/sponsor/3/avatar.svg"></a>
-<a href="https://opencollective.com/js-coach/sponsor/4/website" target="_blank"><img src="https://opencollective.com/js-coach/sponsor/4/avatar.svg"></a>
-<a href="https://opencollective.com/js-coach/sponsor/5/website" target="_blank"><img src="https://opencollective.com/js-coach/sponsor/5/avatar.svg"></a>
-<a href="https://opencollective.com/js-coach/sponsor/6/website" target="_blank"><img src="https://opencollective.com/js-coach/sponsor/6/avatar.svg"></a>
-<a href="https://opencollective.com/js-coach/sponsor/7/website" target="_blank"><img src="https://opencollective.com/js-coach/sponsor/7/avatar.svg"></a>
-<a href="https://opencollective.com/js-coach/sponsor/8/website" target="_blank"><img src="https://opencollective.com/js-coach/sponsor/8/avatar.svg"></a>
-<a href="https://opencollective.com/js-coach/sponsor/9/website" target="_blank"><img src="https://opencollective.com/js-coach/sponsor/9/avatar.svg"></a>
+Finally, you should create a clean database or restore one from a dump file:
+
+```shell
+pg_dump -U rails -W -h localhost -f jscoach.sql jscoach_development
+createdb jscoach_production -U rails -W -h localhost
+psql -U rails -W -h localhost -d jscoach_production -f ~/jscoach.sql
+```
+
+If you ever end up needing more permissions (for example, to create extensions) you can:
+
+```shell
+sudo -u postgres psql
+postgres=# alter role rails with superuser;
+```
+
+You should now be able to deploy the application:
+
+```shell
+bundle exec cap production setup
+bundle exec cap production deploy
+```
+
+To avoid having to enter your password on every deploy, copy your public SSH key:
+
+```shell
+cat ~/.ssh/id_rsa.pub | ssh rails@123.45.56.78 "mkdir -p ~/.ssh && cat >>  ~/.ssh/authorized_keys"
+```
+
+To run the update tasks that use Node, you'll need to install Node, NPM and the dependencies:
+
+```shell
+curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
+sudo apt-get install -y nodejs
+NODE_ENV=production npm install
+```
+
+#### Cron jobs in production
+
+The cron jobs should be configured automatically thanks to the integration between
+Whenever and Capistrano. Check if the cron job was setup correctly with `crontab -l`.
+
+### Working on JS.coach
+
+#### CSS guidelines
+
+Sometimes it's easier to write and maintain CSS when you break component isolation. For example,
+if you have a body with a sidebar and a main section, it's easier to set up this layout in a single
+file. You should do so, even if you don't import the styles in the `<Body>` component itself, you
+can import them in the `sidebar.css` and `main.css` files. This makes it a lot easier to maintain
+nested layouts that use flexbox. Here's an example:
+
+```jsx
+// body.jsx
+import styles from './body.css'
+
+export default (props) => (
+  <div className={styles.container}>
+    <Sidebar />
+    <Main />
+  </div>
+)
+```
+```css
+/* body.css */
+.container {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+}
+.sidebar {
+  flex: none;
+}
+.main {
+  flex: 1;
+  overflow-y: auto;
+}
+```
+```jsx
+// main.jsx
+import styles from './main.css'
+
+export default (props) => (
+  <div className={styles.container}>
+    {...}
+  </div>
+)
+```
+```css
+/* main.css */
+.container {
+  composes: main from "./body.css";
+  /* And here another flexbox layout can be configured */
+}
+```
