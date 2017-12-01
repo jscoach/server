@@ -71,6 +71,11 @@ class Package < ActiveRecord::Base
         separatorsToIndex [
           '_'
         ]
+
+        # Define a replica index with custom ordering but same settings than the main block
+        add_replica 'Package_updated_at', inherit: true, per_environment: true do
+          customRanking ['desc(modifiedAt)']
+        end
       end
     end
 
