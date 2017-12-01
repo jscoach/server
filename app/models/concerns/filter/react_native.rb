@@ -16,6 +16,7 @@ class Filter < ActiveRecord::Base
         filters << collection.filters.find("windows") if assign_windows_filter? pkg
         filters << collection.filters.find("web") if assign_web_filter? pkg
         filters << collection.filters.find("expo") if assign_expo_filter? pkg
+        filters << collection.filters.find("community-pick") if assign_community_pick_filter? pkg
         filters
       end
 
@@ -83,6 +84,10 @@ class Filter < ActiveRecord::Base
 
       def assign_expo_filter?(pkg)
         native_directory_package(pkg.name)["expo"]
+      end
+
+      def assign_community_pick_filter?(pkg)
+        native_directory_package(pkg.name)["goldstar"]
       end
 
       # Get the metadata associated to a given package from the native.directory project

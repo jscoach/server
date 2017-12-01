@@ -28,6 +28,7 @@ Filter.find_or_create_by(collection: Collection.find("react-native"), name: "And
 Filter.find_or_create_by(collection: Collection.find("react-native"), name: "Windows").update(position: 2)
 Filter.find_or_create_by(collection: Collection.find("react-native"), name: "Web").update(position: 3)
 Filter.find_or_create_by(collection: Collection.find("react-native"), name: "Expo").update(position: 4)
+Filter.find_or_create_by(collection: Collection.find("react-native"), name: "Community Pick").update(position: 5)
 
 JsCoach.log "Default filters created or updated."
 

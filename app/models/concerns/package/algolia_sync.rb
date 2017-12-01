@@ -27,6 +27,7 @@ class Package < ActiveRecord::Base
         attribute :dependents
         attribute :keywords
         attribute :readme
+        attribute :communityPick { community_pick_for_algolia }
 
         # We're restricting the search to use a subset of the attributes only.
         # Unordered means matching words at the beginning of that attribute will
@@ -98,6 +99,10 @@ class Package < ActiveRecord::Base
       else
         []
       end
+    end
+
+    def community_pick_for_algolia
+      filters.find_by(slug: "community-pick").present?
     end
   end
 end
