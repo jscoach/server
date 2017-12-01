@@ -6,3 +6,4 @@ require 'extensions/active_admin_subnav'
 
 require 'utils/url_helpers'
 require 'js'
+require 'license'

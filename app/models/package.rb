@@ -141,6 +141,11 @@ class Package < ActiveRecord::Base
     read_attribute(:keywords).to_a.compact.map(&:downcase)
   end
 
+  # Returns either a commonly used license or nil
+  def normalized_license
+    License.normalize(license, fallback: nil) if license
+  end
+
   private
 
   def update_total_downloads
