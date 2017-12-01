@@ -24,7 +24,7 @@ module Github
     # NOTE: An exception has been added for `remobile` because they always have both
     # scoped and global names, and they are a big deal in `react-native`
     def fetch_is_copy(npm_package: @npm_package, manifest: self.fetch_manifest)
-      manifest.try(:[], 'name').present? and manifest['name'].sub("@remobile/", "") != npm_package.name
+      manifest.try(:[], 'name').present? and manifest['name'] != npm_package.name
     end
 
     def fetch_repo_data(npm_package = @npm_package)
