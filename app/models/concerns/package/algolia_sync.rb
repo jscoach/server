@@ -21,7 +21,7 @@ class Package < ActiveRecord::Base
         attribute :collections { collections_for_algolia }
         attribute :categories { categories_for_algolia }
         attribute :styling { styling_for_algolia }
-        attribute :platforms { platforms_for_algolia }
+        attribute :compatibility { compatibility_for_algolia }
         attribute :license { normalized_license }
         attribute :stars
         attribute :dependents
@@ -43,7 +43,7 @@ class Package < ActiveRecord::Base
           :collections,
           :categories,
           :styling,
-          :platforms
+          :compatibility
         ]
 
         customRanking [
@@ -88,14 +88,15 @@ class Package < ActiveRecord::Base
       filters.map(&:name).select { |n| n == 'Inline Styles' }
     end
 
-    def platforms_for_algolia
-      platforms = filters.map(&:name).keep_if { |n| ['Android', 'iOS', 'Windows'].include? n }
+    def compatibility_for_algolia
+      if collections.find_by(slug: "react-native").present?
+        compatibility = filters.map(&:name).select { |n| ['Android', 'iOS', 'Windows', 'Web', 'Expo'].include? n }
 
-      # If package doesn't have keywords and platform specific languages, we assume it works on all
-      if collections_for_algolia.include?('React Native') && platforms.empty?
-        ['Android', 'iOS', 'Windows']
+        # If package doesn't have keywords and platform specific languages, we assume it works on all platforms
+        compatibility += ['Android', 'iOS', 'Windows'] if compatibility.select { |n| ['Android', 'iOS', 'Windows'].include? n }.empty?
+        compatibility
       else
-        platforms
+        []
       end
     end
   end
