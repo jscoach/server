@@ -3,7 +3,7 @@ ActiveAdmin.register Package do
 
   # See permitted parameters documentation:
   # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
-  permit_params :repo, :description, :whitelisted, collection_ids: []
+  permit_params :repo, :description, :whitelisted, :tweeted, collection_ids: []
 
   actions :index, :show, :edit, :update
 
@@ -138,6 +138,9 @@ ActiveAdmin.register Package do
             row :homepage
             row :created_at
             row :updated_at
+            row :last_fetched
+            row :tweeted?
+            row :deprecated?
 
             row :contributors do |resource|
               pre { JSON.pretty_generate resource.contributors } if resource.contributors.present?
@@ -159,6 +162,7 @@ ActiveAdmin.register Package do
           f.input :repo
           f.input :description, input_html: { rows: 6 }
           f.input :whitelisted, label: "Whitelisted (relaxes validations)"
+          f.input :tweeted
           f.input :collections, collection: Collection.all, as: :check_boxes
         end
 
