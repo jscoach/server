@@ -30,7 +30,6 @@ gem 'memoist' # ActiveSupport::Memoizable with a few enhancements
 gem 'exception_notification' # Exception notifier for Rails
 gem 'slack-notifier' # Slack integration for the `exception_notification` gem
 gem 'redcarpet' # The safe Markdown parser, reloaded
-gem 'whenever', require: false # Cron jobs
 gem 'twitter', require: false
 gem 'algoliasearch-rails'
 gem 'html_truncator'
