@@ -8,6 +8,7 @@ class CollectionsMenu
   end
 end
 
+# Packages that already have collections assigned, either accepted or published
 ActiveAdmin.register Package, as: "Collections" do
   menu priority: 2
 

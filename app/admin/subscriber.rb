@@ -1,5 +1,5 @@
 ActiveAdmin.register Subscriber do
-  menu priority: 3
+  menu priority: 4
 
   actions :index
 
