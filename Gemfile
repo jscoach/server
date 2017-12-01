@@ -33,6 +33,7 @@ gem 'redcarpet' # The safe Markdown parser, reloaded
 gem 'whenever', require: false # Cron jobs
 gem 'twitter', require: false
 gem 'algoliasearch-rails'
+gem 'html_truncator'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

@@ -5,9 +5,9 @@ class Package < ActiveRecord::Base
     include AlgoliaSearch
 
     included do
-
       # Configuration based on this one by Algolia: https://goo.gl/ZFwceC
-      # Callbacks run after commit, so collections, filters and categories are assigned
+      # Callbacks run after commit, so collections, filters and categories are already assigned.
+      # Callbacks don't run when associations change. `after_remove` and `after_add` can be added to the HABTMs.
       algoliasearch id: :name, if: :should_sync_with_algolia?, per_environment: true do
         attribute :name
 
@@ -26,7 +26,8 @@ class Package < ActiveRecord::Base
         attribute :stars
         attribute :dependents
         attribute :keywords
-        attribute :readme
+        attribute :readme { readme_for_algolia }
+        attribute :readmeWasTruncated { readme_was_truncated_for_algolia }
         attribute :communityPick { community_pick_for_algolia }
 
         # We're restricting the search to use a subset of the attributes only.
@@ -71,6 +72,21 @@ class Package < ActiveRecord::Base
           '_'
         ]
       end
+    end
+
+    # Truncate the readme if it's too long. Truncation is done by counting characters but some
+    # readmes may be very long in terms of HTML and have few characters if they include lots of
+    # images for example. We try to cut at 20 000 and if it's still to big we try half the size.
+    # Keep in mind that records in Algolia must be smaller than 10kb.
+    def readme_for_algolia
+      options = { length_in_chars: true, ellipsis: '', punctuation_chars: [] }
+      truncated = HTML_Truncator.truncate(readme, 20_000, options)
+      truncated = HTML_Truncator.truncate(readme, 10_000, options) if truncated.length > 90_000
+      truncated
+    end
+
+    def readme_was_truncated_for_algolia
+      readme_for_algolia.html_truncated?
     end
 
     def should_sync_with_algolia?
