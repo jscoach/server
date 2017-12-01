@@ -17,9 +17,12 @@ namespace :app do
       # If a param is not provided, update packages with collections that have
       # not been updated the longest for 1 hour
       packages = packages.with_collections.order("packages.updated_at asc").limit(1000)
-    else
-      # If a param is provided, update packages created recently
+    elsif args[:new] == "new"
+      # If the param is "new", update packages created recently
       packages = packages.where("packages.created_at >= ?", Time.now.beginning_of_day - 1.day)
+    else
+      # Try to get the package with the given name
+      packages = packages.where(name: args[:new])
     end
 
     Task.new(packages.count) do |progress|

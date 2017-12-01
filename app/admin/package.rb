@@ -192,6 +192,19 @@ ActiveAdmin.register Package do
     redirect_to collection_path, alert: "The packages visibility was updated."
   end
 
+  member_action :update_metadata, method: :put do
+    hash = { name: resource.name, custom_repo: resource.repo }
+    npm = NPM::Package.new(hash, fetch: true)
+    github = Github::Repository.new(npm, fetch: true)
+
+    resource.assign_npm_attributes(npm)
+    resource.assign_github_attributes(github)
+    resource.last_fetched = Time.now
+    resource.auto_review.save!
+
+    redirect_to resource_path, notice: "The package metadata was updated."
+  end
+
   member_action :toggle_visibility, method: :put do
     resource.hidden = !resource.hidden
     resource.save!
@@ -216,6 +229,10 @@ ActiveAdmin.register Package do
   member_action :publish, method: :put do
     resource.publish!
     redirect_to resource_path, notice: "The package transitioned to published."
+  end
+
+  action_item :update_metadata, only: :show do
+    link_to "Update metadata", update_metadata_sudo_package_path(package), method: :put
   end
 
   action_item :toggle_visibility, only: :show do
