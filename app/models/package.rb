@@ -3,6 +3,7 @@ class Package < ActiveRecord::Base
   include States
   include NPMRelated
   include GithubRelated
+  include AlgoliaSync
 
   extend FriendlyId
 
