@@ -94,7 +94,7 @@ class Package < ActiveRecord::Base
     end
 
     def collections_for_algolia
-      collections.where(default: true).where("slug != 'browserify'").map(&:name)
+      collections.where(default: true).map(&:name)
     end
 
     def categories_for_algolia
