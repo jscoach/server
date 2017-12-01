@@ -6,6 +6,8 @@ class Package < ActiveRecord::Base
 
   extend FriendlyId
 
+  DESCRIPTION_UNAVAILABLE = "No description available."
+
   friendly_id :name, use: [:slugged, :finders], slug_column: 'slug'
 
   has_and_belongs_to_many :collections, uniq: true
@@ -122,6 +124,20 @@ class Package < ActiveRecord::Base
   # The real value stored in the database
   def description!
     read_attribute :description
+  end
+
+  # Make some minor transformations to the description before displaying it
+  # If unavailable, default to `original_description`
+  def humanized_description
+    desc = ApplicationController.helpers.plain_text(description) # Escape HTML and remove Markdown
+
+    if desc.blank? or ["[!", "[](", "===", "```"].any? { |s| desc.include? s }
+      "<em>#{ DESCRIPTION_UNAVAILABLE }</em>".html_safe
+    else
+      desc = "#{ desc }." if /\w/ =~ desc.last # Add trailing dot
+      desc[0] = desc[0].upcase # Capitalize 1st letter
+      desc.html_safe
+    end
   end
 
   def github_url
