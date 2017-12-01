@@ -95,7 +95,11 @@ class Package < ActiveRecord::Base
   end
 
   def repo_user
-    repo.split("/").first
+    repo.split("/").first if repo.present?
+  end
+
+  def repo_name
+    repo.split("/").last if repo.present?
   end
 
   def original_description=(new_description)
