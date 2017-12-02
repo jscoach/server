@@ -8,7 +8,7 @@ class Package < ActiveRecord::Base
       # Configuration based on this one by Algolia: https://goo.gl/ZFwceC
       # Callbacks run after commit, so collections, filters and categories are already assigned.
       # Callbacks don't run when associations change. `after_remove` and `after_add` can be added to the HABTMs.
-      algoliasearch id: :name, if: :should_sync_with_algolia?, per_environment: true do
+      algoliasearch id: :name, if: :should_sync_with_algolia?, force_utf8_encoding: true, per_environment: true do
         attribute :name
 
         attribute :description { humanized_description }
