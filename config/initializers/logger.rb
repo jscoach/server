@@ -6,26 +6,31 @@ module JsCoach
   def log(msg)
     Rails.logger.debug msg unless Rails.env.test?
     notifier.ping "", attachments: [{ text: msg }] if Rails.env.production?
+    nil
   end
 
   def info(msg)
     Rails.logger.info msg.blue unless Rails.env.test?
     notifier.ping "", attachments: [{ text: msg, color: "#4078c0" }] if Rails.env.production?
+    nil
   end
 
   def success(msg)
     Rails.logger.info msg.green unless Rails.env.test?
     notifier.ping "", attachments: [{ text: msg, color: "good" }] if Rails.env.production?
+    nil
   end
 
   def warn(msg)
     Rails.logger.warn msg.yellow unless Rails.env.test?
     notifier.ping "", attachments: [{ text: "<!channel> #{ msg }", color: "warning" }] if Rails.env.production?
+    nil
   end
 
   def error(msg)
     Rails.logger.error msg.red unless Rails.env.test?
     notifier.ping "", attachments: [{ text: "<!channel> #{ msg }", color: "danger" }] if Rails.env.production?
+    nil
   end
 
   private
