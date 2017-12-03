@@ -154,7 +154,7 @@ class Package < ActiveRecord::Base
   end
 
   def deprecated?
-    manifest["deprecated"].present?
+    manifest.present? && manifest["deprecated"].present?
   end
 
   # Force array and downcase to simplify comparison
