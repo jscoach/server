@@ -11,7 +11,7 @@ class PackageDecorator < Draper::Decorator
 
     head = "#{ self.name.sub("@","") }:" # Remove @ from scoped names to prevent mentions
     desc = CGI.unescapeHTML self.description.gsub("\n", ' ').gsub(/\s+/, ' ').strip.sub(/\.$/, '')
-    link = "https://js.coach/#{ self.name }"
+    link = "https://github.com/#{ self.repo }"
     descMaxLength = tweetMaxLength - linkLength - head.length - 2 # spaces
     desc = desc.first(descMaxLength - 1) + "…" if desc.length > descMaxLength
 

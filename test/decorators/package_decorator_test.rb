@@ -33,7 +33,7 @@ describe "PackageDecorator" do
 
       pkg.decorate.to_tweet.must_equal "interpolate-components: A <module> & mixin to turn strings into structured React " +
         "components without dangerouslyInsertInnerHTML. Cross Platform React Native component. Supports selecting a payment " +
-        "method, adding cards manually and using the camera. Notifie… https://js.coach/interpolate-components"
+        "method, adding cards manually and using the camera. Notifie… https://github.com/Automattic/interpolate-components"
     end
 
     it "returns nil if there isn't a description" do
