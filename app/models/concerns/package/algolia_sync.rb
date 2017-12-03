@@ -29,6 +29,7 @@ class Package < ActiveRecord::Base
         attribute :readme { readme_for_algolia }
         attribute :readmeWasTruncated { readme_was_truncated_for_algolia }
         attribute :communityPick { community_pick_for_algolia }
+        attribute :homepage { homepage_for_algolia }
 
         # We're restricting the search to use a subset of the attributes only.
         # Unordered means matching words at the beginning of that attribute will
@@ -124,6 +125,10 @@ class Package < ActiveRecord::Base
 
     def community_pick_for_algolia
       filters.find_by(slug: "community-pick").present?
+    end
+
+    def homepage_for_algolia
+      homepage unless homepage.to_s.include? "github.com"
     end
   end
 end
