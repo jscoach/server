@@ -87,7 +87,7 @@ class Package < ActiveRecord::Base
     def readme_for_algolia
       options = { length_in_chars: true, ellipsis: '', punctuation_chars: [] }
       truncated = HTML_Truncator.truncate(readme, 20_000, options)
-      truncated = HTML_Truncator.truncate(readme, 10_000, options) if truncated.length > 90_000
+      truncated = HTML_Truncator.truncate(readme, 10_000, options) if truncated.length > 50_000
       truncated
     end
 
