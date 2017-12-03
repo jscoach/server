@@ -80,6 +80,12 @@ ActiveAdmin.register Package do
       column do
         panel 'Package metadata' do
           attributes_table_for package do
+            if package.published?
+              row :public_link do |resource|
+                link_to "js.coach/#{ resource.name }", "https://js.coach/#{ resource.name }"
+              end
+            end
+
             row :state do |resource|
               status_tag resource.state.titleize, :ok
             end
