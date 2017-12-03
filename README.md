@@ -10,7 +10,16 @@
 
 ---
 
-#### Setting up JS.coach
+### Found a bug or have feedback?
+
+Please open an issue in the [support repository](https://github.com/jscoach/support).
+Feel free to submit PRs here.
+
+### Looking for the old source?
+
+Check out the [classic branch](https://github.com/jscoach/support/tree/classic/project).
+
+### Setting up JS.coach
 
 Install the [`foreman`](https://github.com/ddollar/foreman) gem.
 Running `foreman start` will start the database for you and the rails server.
@@ -24,12 +33,3 @@ For example, to start the rails console type the following command:
 ```shell
 foreman run rails c
 ```
-
-#### Found a bug or have feedback?
-
-Please open an issue in the [support repository](https://github.com/jscoach/support).
-Feel free to submit PRs here.
-
-#### Looking for the old source?
-
-Check out the [classic branch](https://github.com/jscoach/support/tree/classic/project).
