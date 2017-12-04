@@ -3,9 +3,9 @@ ActiveAdmin.register Package do
 
   # See permitted parameters documentation:
   # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
-  permit_params :repo, :description, :whitelisted, :tweeted, collection_ids: []
+  permit_params :name, :repo, :description, :whitelisted, :tweeted, collection_ids: []
 
-  actions :index, :show, :edit, :update
+  actions :index, :show, :edit, :update, :new, :create
 
   decorate_with PackageDecorator
 
@@ -164,12 +164,21 @@ ActiveAdmin.register Package do
   form do |f|
     columns do
       column do
-        f.inputs "Update #{ package.name }" do
-          f.input :repo
-          f.input :description, input_html: { rows: 6 }
-          f.input :whitelisted, label: "Whitelisted (relaxes validations)"
-          f.input :tweeted
-          f.input :collections, collection: Collection.all, as: :check_boxes
+        if f.object.new_record?
+          f.inputs "New package" do
+            f.input :name
+            f.input :repo
+          end
+        end
+
+        unless f.object.new_record?
+          f.inputs "Update #{ package.name }" do
+            f.input :repo
+            f.input :description, input_html: { rows: 6 }
+            f.input :whitelisted, label: "Whitelisted (relaxes validations)"
+            f.input :tweeted
+            f.input :collections, collection: Collection.all, as: :check_boxes
+          end
         end
 
         f.actions
