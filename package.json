@@ -3,7 +3,7 @@
   "private": true,
   "dependencies": {
     "cheerio": "^0.22.0",
-    "github-markdown-css-with-rem": "github:dmfrancisco/github-markdown-css-with-rem",
+    "github-markdown-css": "^2.9.0",
     "marky-markdown": "github:dmfrancisco/marky-markdown",
     "normalize.css": "^7.0.0",
     "spdx-license-list": "^3.0.1"

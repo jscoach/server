@@ -72,8 +72,8 @@ ActiveAdmin.register Package do
   show do
     columns do
       column span: 2 do
-        panel "README", class: "readme" do
-          package.readme.to_s.html_safe
+        panel "README#{ ' (truncated)' if package.readme_was_truncated_for_algolia }", class: "readme" do
+          package.readme_for_algolia.to_s.html_safe
         end
       end
 
