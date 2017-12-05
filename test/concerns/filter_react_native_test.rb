@@ -7,6 +7,9 @@ class FilterReactNativeTest < ActiveSupport::TestCase
 
   describe "discover" do
     it "assigns the right filters for react-native" do
+      FakeWeb.register_uri(:get, Filter::NATIVE_DIRECTORY_URL,
+        body: '{ "libraries": [] }', content_type: "application/json")
+
       pkg = Package.new(name: "foo", collections: [ Collection.find("react-native") ])
 
       android_filter = Filter.find_by(slug: "android", collection: Collection.find("react-native"))

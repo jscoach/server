@@ -11,6 +11,9 @@ class FilterTest < ActiveSupport::TestCase
 
   describe "discover" do
     it "assigns automatically after collection assignment" do
+      FakeWeb.register_uri(:get, Filter::NATIVE_DIRECTORY_URL,
+        body: '{ "libraries": [] }', content_type: "application/json")
+
       pkg = packages(:accepted_1)
       pkg.collections = []
       pkg.keywords = [ "react-native", "react-component" ]

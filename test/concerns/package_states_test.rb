@@ -75,11 +75,11 @@ class PackageStates < ActiveSupport::TestCase
       github.fetch_is_copy = false
 
       # If it doesn't have a readme, must be rejected
-      github.fetch_readme = ""
+      def github.fetch_readme(*opts); ""; end
       pkg.assign_github_attributes(github)
       pkg.auto_review.save
       pkg.rejected?.must_equal true
-      github.fetch_readme = "Hello" * 80
+      def github.fetch_readme(*opts); "Hello" * 80; end
 
       # Otherwise, will be accepted
       pkg.languages = { "Java" => 42 }
