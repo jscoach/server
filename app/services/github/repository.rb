@@ -45,8 +45,14 @@ module Github
     # We would also need to convert the Markdown to HTML, with the risk of obtaining
     # a different output than GitHub has. GitHub gives us rendered HTML with syntax
     # highlighting, so it's more convenient.
-    def fetch_readme(full_name: @full_name, npm_package: @npm_package)
-      readme = Utils.readme(full_name, accept: 'application/vnd.github.html')
+    # @param path Allows to fetch readme from different directory. Useful for monorepos.
+    def fetch_readme(full_name: @full_name, npm_package: @npm_package, path: nil)
+      if path.present?
+        readme = Utils.contents(full_name, path: "#{ path }/README.md", accept: 'application/vnd.github.html')
+      else
+        readme = Utils.readme(full_name, accept: 'application/vnd.github.html')
+      end
+
       JS::ReadMe.execute(readme, {
         name: npm_package.name,
         description: npm_package.description,

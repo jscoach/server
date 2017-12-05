@@ -3,7 +3,7 @@ ActiveAdmin.register Package do
 
   # See permitted parameters documentation:
   # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
-  permit_params :name, :repo, :description, :whitelisted, :tweeted, collection_ids: []
+  permit_params :name, :repo, :description, :whitelisted, :tweeted, :custom_repo_path, collection_ids: []
 
   actions :index, :show, :edit, :update, :new, :create
 
@@ -100,6 +100,12 @@ ActiveAdmin.register Package do
             row :custom_repository do |resource|
               status_tag resource.repo!.present?
             end
+            if package.repo.present? && package.custom_repo_path.present?
+              row :custom_repo_path do |resource|
+                link_to resource.custom_repo_path,
+                  "#{ resource.github_url }/tree/master/#{ resource.custom_repo_path }"
+              end
+            end
 
             row :description
             row :custom_description do |resource|
@@ -175,6 +181,7 @@ ActiveAdmin.register Package do
           f.inputs "Update #{ package.name }" do
             f.input :repo
             f.input :description, input_html: { rows: 6 }
+            f.input :custom_repo_path
             f.input :whitelisted, label: "Whitelisted (relaxes validations)"
             f.input :tweeted
             f.input :collections, collection: Collection.all, as: :check_boxes
