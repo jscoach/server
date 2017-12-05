@@ -85,14 +85,19 @@ class Package < ActiveRecord::Base
     # images for example. We try to cut at 20 000 and if it's still to big we try half the size.
     # Keep in mind that records in Algolia must be smaller than 10kb.
     def readme_for_algolia
-      options = { length_in_chars: true, ellipsis: '', punctuation_chars: [] }
+      options = { length_in_chars: true, ellipsis: '' }
+      HTML_Truncator.self_closing_tags = %w(br hr img input)
+      HTML_Truncator.punctuation_chars = []
+
       truncated = HTML_Truncator.truncate(readme, 20_000, options)
       truncated = HTML_Truncator.truncate(readme, 10_000, options) if truncated.length > 50_000
-      truncated
+
+      # We could always return `truncated` but we avoid it because of possible markup changes
+      truncated.html_truncated? ? truncated : readme
     end
 
     def readme_was_truncated_for_algolia
-      readme_for_algolia.html_truncated?
+      readme_for_algolia.try :html_truncated?
     end
 
     def should_sync_with_algolia?
