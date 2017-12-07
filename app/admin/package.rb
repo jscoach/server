@@ -148,6 +148,7 @@ ActiveAdmin.register Package do
             row :published_at
             row :license
             row :homepage
+            row :github_homepage
             row :created_at
             row :updated_at
             row :last_fetched

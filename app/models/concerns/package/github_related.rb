@@ -9,7 +9,8 @@ class Package < ActiveRecord::Base
         stars: github.stargazers_count,
         is_fork: github.fork || github.fetch_is_copy,
         readme: github.try(:fetch_readme, path: self.custom_repo_path),
-        languages: github.fetch_languages
+        languages: github.fetch_languages,
+        github_homepage: github.homepage
       }.compact)
     end
   end

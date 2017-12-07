@@ -133,8 +133,11 @@ class Package < ActiveRecord::Base
       filters.find_by(slug: "community-pick").present?
     end
 
+    # Use the homepage field from npm, unless if it points to GitHub, because that's redundant
+    # If unavailable, use the homepage in the GitHub page itself, if existent
     def homepage_for_algolia
-      homepage unless homepage.to_s.include? "github.com"
+      return homepage unless homepage.to_s.include? "github.com"
+      github_homepage unless github_homepage.to_s.include? "github.com"
     end
   end
 end
