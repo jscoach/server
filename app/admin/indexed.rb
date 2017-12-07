@@ -7,6 +7,7 @@ ActiveAdmin.register Package, as: "Indexed" do
 
   config.clear_sidebar_sections!
   config.batch_actions = false
+  config.sort_order = "modified_at_asc"
 
   scope :deprecated, default: true, show_count: false do |scope|
     scope.published.deprecated
@@ -21,6 +22,10 @@ ActiveAdmin.register Package, as: "Indexed" do
     # - It was neither added by the author or reviewer
     # - It included markdown that was removed, like badges
     scope.published.algolia_search(Package::DESCRIPTION_UNAVAILABLE)
+  end
+
+  scope :unloved, show_count: false do |scope|
+    scope.default.published.where("modified_at <= ?", 2.years.ago).where("stars <= ?", 1)
   end
 
   index do

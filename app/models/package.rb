@@ -34,8 +34,11 @@ class Package < ActiveRecord::Base
   # Get packages which last version has been marked as deprecated
   scope :deprecated, -> { where("(manifest->'deprecated') is not null") }
 
+  # Packages that are associated to collections
+  scope :default, -> { joins(:collections).where("collections.default": true) }
+
   # Published packages with default collections that haven't been tweeted yet
-  scope :tweetable, -> { joins(:collections).with_state(:published).where("collections.default": true, tweeted: false) }
+  scope :tweetable, -> { default.published.where(tweeted: false) }
 
   # I was not able to create an index with `keywords` being an array because "functions
   # in index expression must be marked IMMUTABLE". Instead store serialized keywords.
