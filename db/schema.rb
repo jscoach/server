@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171207192903) do
+ActiveRecord::Schema.define(version: 20171207210436) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -143,6 +143,7 @@ ActiveRecord::Schema.define(version: 20171207192903) do
     t.string "slug", null: false
     t.string "custom_repo_path"
     t.string "github_homepage"
+    t.string "github_description"
     t.index "((((to_tsvector('english'::regconfig, COALESCE((name)::text, ''::text)) || to_tsvector('english'::regconfig, COALESCE(original_description, ''::text))) || to_tsvector('english'::regconfig, COALESCE((original_repo)::text, ''::text))) || to_tsvector('english'::regconfig, COALESCE((keywords)::text, ''::text))))", name: "packages_search", using: :gin
     t.index ["name"], name: "index_packages_on_name", unique: true
     t.index ["slug"], name: "index_packages_on_slug", unique: true

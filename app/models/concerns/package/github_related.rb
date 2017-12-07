@@ -10,7 +10,8 @@ class Package < ActiveRecord::Base
         is_fork: github.fork || github.fetch_is_copy,
         readme: github.try(:fetch_readme, path: self.custom_repo_path),
         languages: github.fetch_languages,
-        github_homepage: github.homepage
+        github_homepage: github.homepage,
+        github_description: github.description
       }.compact)
     end
   end

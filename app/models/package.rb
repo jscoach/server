@@ -123,8 +123,6 @@ class Package < ActiveRecord::Base
     end
   end
 
-  # Make some minor transformations to the description before displaying it
-  # If unavailable, default to `original_description`
   def description
     read_attribute(:description).presence || self.original_description
   end
@@ -135,12 +133,13 @@ class Package < ActiveRecord::Base
   end
 
   # Make some minor transformations to the description before displaying it
-  # If unavailable, default to `original_description`
+  # If unavailable, default to `original_description` or `github_description`
   def humanized_description
     desc = ApplicationController.helpers.plain_text(description) # Escape HTML and remove Markdown
+    desc = github_description if desc.blank? or ["[!", "[](", "===", "```"].any? { |s| desc.include? s }
 
-    if desc.blank? or ["[!", "[](", "===", "```"].any? { |s| desc.include? s }
-      "<em>#{ DESCRIPTION_UNAVAILABLE }</em>".html_safe
+    if desc.blank?
+      return "<em>#{ DESCRIPTION_UNAVAILABLE }</em>".html_safe
     else
       desc = "#{ desc }." if /\w/ =~ desc.last # Add trailing dot
       desc[0] = desc[0].upcase # Capitalize 1st letter
