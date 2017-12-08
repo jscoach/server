@@ -16,8 +16,9 @@ class Package < ActiveRecord::Base
         attribute :publishedAt { published_at }
         attribute :modifiedAt { modified_at }
         attribute :downloads { last_month_downloads }
-        attribute :repositoryUser { repo_user }
         attribute :repositoryName { repo_name }
+        attribute :repositoryUser { repo_user }
+        attribute :repositoryUserAvatar { repo_user_avatar }
         attribute :customRepoPath { custom_repo_path }
         attribute :collections { collections_for_algolia }
         attribute :categories { categories_for_algolia }

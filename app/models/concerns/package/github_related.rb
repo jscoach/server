@@ -11,7 +11,8 @@ class Package < ActiveRecord::Base
         readme: github.try(:fetch_readme, path: self.custom_repo_path),
         languages: github.fetch_languages,
         github_homepage: github.homepage,
-        github_description: github.description
+        github_description: github.description,
+        repo_user_avatar: github.owner&.avatar_url
       }.compact)
     end
   end
