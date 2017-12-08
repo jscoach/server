@@ -108,6 +108,10 @@ ActiveAdmin.register Package do
               end
             end
 
+            row :npm_profile do |resource|
+              link_to "npmjs.com/#{ resource.name }", "https://npmjs.com/package/#{ resource.name }"
+            end
+
             row :description
             row :custom_description do |resource|
               status_tag resource.description!.present?
