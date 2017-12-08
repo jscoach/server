@@ -23,11 +23,12 @@ ActiveAdmin.register Package, as: "Collections" do
   config.secondary_menu = CollectionsMenu
 
   scope :all, default: true
+  scope :default
 
   controller do
     before_action only: :index do
       # If we haven't already, add one scope per collection.
-      add_dynamic_scopes if active_admin_config.scopes.length == 1
+      add_dynamic_scopes if active_admin_config.scopes.length == 2
     end
 
     # This is done in a `before_action` because AA doesn't support dynamic scopes

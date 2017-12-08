@@ -6,7 +6,6 @@ ActiveAdmin.register Package, as: "Indexed" do
   actions :index
 
   config.clear_sidebar_sections!
-  config.batch_actions = false
   config.sort_order = "modified_at_asc"
 
   scope :deprecated, default: true, show_count: false do |scope|
@@ -28,7 +27,13 @@ ActiveAdmin.register Package, as: "Indexed" do
     scope.default.published.where("modified_at <= ?", 2.years.ago).where("stars <= ?", 1)
   end
 
+  scope :fetch_problem, show_count: false do |scope|
+    scope.default.published.where("last_fetched <= ?", 1.month.ago)
+  end
+
   index do
+    selectable_column
+
     column :name do |resource|
       link_to resource.name, sudo_package_path(resource)
     end
@@ -50,5 +55,29 @@ ActiveAdmin.register Package, as: "Indexed" do
     column :last_fetched
     column :updated_at
     column :modified_at
+
+    if current_scope.id == "fetch_problem"
+      script do
+        """
+          $('.col-repository a').each((i, link) => (
+            $.ajax({
+              url: `https://raw.githubusercontent.com/${ $(link).text() }/master/README.md`,
+              method: 'head',
+              success: () => $('.col-repository a').css('color', 'mediumseagreen'),
+              statusCode: {
+                404: () => $('.col-repository a').css('color', 'orangered')
+              }
+            })
+          ));
+        """.html_safe
+      end
+    end
+  end
+
+  batch_action :reject do |ids|
+    batch_action_collection.find(ids).each do |package|
+      package.reject!
+    end
+    redirect_to collection_path, alert: "The packages transitioned to rejected."
   end
 end

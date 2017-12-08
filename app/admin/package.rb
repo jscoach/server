@@ -97,6 +97,7 @@ ActiveAdmin.register Package do
             row :repository do |resource|
               link_to resource.repo.to_s, resource.github_url if resource.repo.present?
             end
+
             row :custom_repository do |resource|
               status_tag resource.repo!.present?
             end
@@ -166,6 +167,22 @@ ActiveAdmin.register Package do
             end
           end
         end
+      end
+    end
+
+    if package.repo.present? && package.published?
+      script do
+        """
+          $.ajax({
+            url: 'https://raw.githubusercontent.com/#{ package.repo }/master/README.md',
+            method: 'head',
+            success: () => $('.row-repository td a').css('color', 'mediumseagreen'),
+            statusCode: {
+              404: () => $('.row-repository td a').css('color', 'orangered').parent()
+                .append(' <a href=\"https://github.com/search?s=stars&q=#{ package.name }\" target=\"_blank\">(404 🔎)</a>')
+            }
+          });
+        """.html_safe
       end
     end
   end
