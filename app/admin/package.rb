@@ -220,14 +220,14 @@ ActiveAdmin.register Package do
     batch_action_collection.find(ids).each do |package|
       package.pending!
     end
-    redirect_to collection_path, alert: "The packages transitioned to pending."
+    redirect_back fallback_location: collection_path, alert: "The packages transitioned to pending."
   end
 
   batch_action :reject, if: proc { @current_scope.scope_method != :rejected } do |ids|
     batch_action_collection.find(ids).each do |package|
       package.reject!
     end
-    redirect_to collection_path, alert: "The packages transitioned to rejected."
+    redirect_back fallback_location: collection_path, alert: "The packages transitioned to rejected."
   end
 
   batch_action :toggle_visibility do |ids|
@@ -235,7 +235,7 @@ ActiveAdmin.register Package do
       package.hidden = !package.hidden
       package.save!
     end
-    redirect_to collection_path, alert: "The packages visibility was updated."
+    redirect_back fallback_location: collection_path, alert: "The packages visibility was updated."
   end
 
   member_action :update_metadata, method: :put do

@@ -63,9 +63,9 @@ ActiveAdmin.register Package, as: "Indexed" do
             $.ajax({
               url: `https://raw.githubusercontent.com/${ $(link).text() }/master/README.md`,
               method: 'head',
-              success: () => $('.col-repository a').css('color', 'mediumseagreen'),
+              success: () => $(link).css('color', 'mediumseagreen'),
               statusCode: {
-                404: () => $('.col-repository a').css('color', 'orangered')
+                404: () => $(link).css('color', 'orangered')
               }
             })
           ));
@@ -78,6 +78,6 @@ ActiveAdmin.register Package, as: "Indexed" do
     batch_action_collection.find(ids).each do |package|
       package.reject!
     end
-    redirect_to collection_path, alert: "The packages transitioned to rejected."
+    redirect_back fallback_location: collection_path, alert: "The packages transitioned to rejected."
   end
 end

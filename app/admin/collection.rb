@@ -86,20 +86,20 @@ ActiveAdmin.register Package, as: "Collections" do
     batch_action_collection.find(ids).each do |package|
       package.publish!
     end
-    redirect_to collection_path, alert: "The packages have been published."
+    redirect_back fallback_location: collection_path, alert: "The packages have been published."
   end
 
   batch_action :unpublish, if: proc { params[:state] == 'published' } do |ids|
     batch_action_collection.find(ids).each do |package|
       package.accept!
     end
-    redirect_to collection_path, alert: "The packages transitioned to accepted."
+    redirect_back fallback_location: collection_path, alert: "The packages transitioned to accepted."
   end
 
   batch_action :reject do |ids|
     batch_action_collection.find(ids).each do |package|
       package.reject!
     end
-    redirect_to collection_path, alert: "The packages transitioned to rejected."
+    redirect_back fallback_location: collection_path, alert: "The packages transitioned to rejected."
   end
 end
