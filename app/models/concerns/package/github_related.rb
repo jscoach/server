@@ -13,7 +13,8 @@ class Package < ActiveRecord::Base
         github_homepage: github.homepage,
         github_description: github.description,
         repo_user_avatar: github.owner&.avatar_url,
-        pushed_at: github.pushed_at
+        pushed_at: github.pushed_at,
+        github_license: github.license&.spdx_id
       }.compact)
     end
   end

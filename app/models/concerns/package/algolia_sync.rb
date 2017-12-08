@@ -25,7 +25,7 @@ class Package < ActiveRecord::Base
         attribute :categories { categories_for_algolia }
         attribute :styling { styling_for_algolia }
         attribute :compatibility { compatibility_for_algolia }
-        attribute :license { normalized_license }
+        attribute :license { license_for_algolia }
         attribute :stars
         attribute :dependents
         attribute :keywords
@@ -140,6 +140,10 @@ class Package < ActiveRecord::Base
     def homepage_for_algolia
       return homepage unless homepage.to_s.include? "github.com"
       github_homepage unless github_homepage.to_s.include? "github.com"
+    end
+
+    def license_for_algolia
+      normalized_license.presence || github_license
     end
   end
 end
