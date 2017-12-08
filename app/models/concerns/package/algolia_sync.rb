@@ -15,6 +15,7 @@ class Package < ActiveRecord::Base
         attribute :latestRelease { latest_release }
         attribute :publishedAt { published_at }
         attribute :modifiedAt { modified_at }
+        attribute :pushedAt { pushed_at }
         attribute :downloads { last_month_downloads }
         attribute :repositoryName { repo_name }
         attribute :repositoryUser { repo_user }

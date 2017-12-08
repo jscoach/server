@@ -146,6 +146,7 @@ ActiveAdmin.register Package do
             end
 
             row :published_at
+            row :pushed_at
             row :license
             row :homepage
             row :github_homepage

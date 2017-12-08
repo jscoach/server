@@ -12,7 +12,8 @@ class Package < ActiveRecord::Base
         languages: github.fetch_languages,
         github_homepage: github.homepage,
         github_description: github.description,
-        repo_user_avatar: github.owner&.avatar_url
+        repo_user_avatar: github.owner&.avatar_url,
+        pushed_at: github.pushed_at
       }.compact)
     end
   end
