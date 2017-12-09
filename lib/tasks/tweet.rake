@@ -12,6 +12,9 @@ namespace :app do
 
   desc "Tweet about a package"
   task :tweet => :environment do
+    # Only run every two hours (the heroku scheduler only supports hourly)
+    return if Time.current.hour.odd?
+
     begin
       package = Package.tweetable.first
 
