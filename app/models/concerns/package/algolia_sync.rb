@@ -33,6 +33,7 @@ class Package < ActiveRecord::Base
         attribute :readmeWasTruncated { readme_was_truncated_for_algolia }
         attribute :communityPick { community_pick_for_algolia }
         attribute :homepage { homepage_for_algolia }
+        attribute :donationUrl { donation_url }
 
         # We're restricting the search to use a subset of the attributes only.
         # Unordered means matching words at the beginning of that attribute will

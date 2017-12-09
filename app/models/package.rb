@@ -51,6 +51,7 @@ class Package < ActiveRecord::Base
   end
 
   before_save :update_total_downloads, if: "downloads_changed?"
+  before_save :update_donation_url, if: "readme_changed?"
 
   # Override the default slug generation
   def normalize_friendly_id(string)
@@ -190,5 +191,9 @@ class Package < ActiveRecord::Base
   def update_total_downloads
     values = downloads.map { |day| day["downloads"] }
     self.total_downloads = values.sum
+  end
+
+  def update_donation_url
+    self.donation_url = Donation.find_link(readme) if readme.present?
   end
 end
