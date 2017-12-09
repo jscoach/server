@@ -13,7 +13,7 @@ ActiveAdmin.register Package, as: "Indexed" do
   end
 
   scope :maybe_deprecated, show_count: false do |scope|
-    scope.published.where("readme ilike '%deprecated%'")
+    scope.published.where("readme ilike '%deprecated%' or readme ilike '%discontinued%'")
   end
 
   scope :no_description, show_count: false do |scope|
