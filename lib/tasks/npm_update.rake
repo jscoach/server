@@ -29,17 +29,7 @@ namespace :app do
       packages.each do |package|
         begin
           begin
-            # Pass `repo` to prevent GitHub service from trying to find it again,
-            # in case it is not defined in the package.json
-            hash = { name: package.name, custom_repo: package.repo }
-
-            npm = NPM::Package.new(hash, fetch: true)
-            github = Github::Repository.new(npm, fetch: true)
-
-            package.assign_npm_attributes(npm)
-            package.assign_github_attributes(github)
-            package.last_fetched = Time.now
-
+            package.update_metadata
           rescue Github::RepoNotFound => e
             JsCoach.info "The repository for #{ package.name } could not be found (#{ e })."
           rescue Octokit::NotFound => e

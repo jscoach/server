@@ -172,6 +172,19 @@ class Package < ActiveRecord::Base
     License.normalize(license, fallback: nil) if license
   end
 
+  def update_metadata
+    # Pass `repo` to prevent GitHub service from trying to find it again,
+    # in case it is not defined in the package.json
+    hash = { name: name, custom_repo: repo }
+
+    npm = NPM::Package.new(hash, fetch: true)
+    github = Github::Repository.new(npm, fetch: true)
+
+    assign_npm_attributes(npm)
+    assign_github_attributes(github)
+    self.last_fetched = Time.now
+  end
+
   private
 
   def update_total_downloads

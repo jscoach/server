@@ -243,13 +243,7 @@ ActiveAdmin.register Package do
   end
 
   member_action :update_metadata, method: :put do
-    hash = { name: resource.name, custom_repo: resource.repo }
-    npm = NPM::Package.new(hash, fetch: true)
-    github = Github::Repository.new(npm, fetch: true)
-
-    resource.assign_npm_attributes(npm)
-    resource.assign_github_attributes(github)
-    resource.last_fetched = Time.now
+    resource.update_metadata
     resource.auto_review.save!
 
     redirect_to resource_path, notice: "The package metadata was updated."
