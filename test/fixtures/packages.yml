@@ -17,6 +17,7 @@ published_<%= i+1 %>: &published_<%= i+1 %>
   original_description: Example description
   modified_at: 2015-01-<%= (30 - i).to_s.rjust(2, '0') %> 10:01:00
   published_at: 2014-02-<%= (30 - i).to_s.rjust(2, '0') %> 10:01:00
+  pushed_at: 2014-02-<%= (30 - i).to_s.rjust(2, '0') %> 10:01:00
   latest_release: 0.14.3
   is_fork: false
   stars: <%= 42+i %>

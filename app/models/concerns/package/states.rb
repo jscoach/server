@@ -36,6 +36,7 @@ class Package < ActiveRecord::Base
 
       with_options if: :published? do |p|
         p.validates :collections, presence: true
+        p.validates :pushed_at, presence: true
       end
 
       state_machine :state, initial: :pending do

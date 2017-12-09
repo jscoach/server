@@ -2,7 +2,7 @@ require "test_helper"
 
 class PackageStates < ActiveSupport::TestCase
   let(:npm_full) { JSON.parse File.read("test/support/react_package_full.json") }
-  let(:github) { OpenStruct.new(fork: false, fetch_is_copy: false, stargazers_count: 42, full_name: "facebook/react") }
+  let(:github) { OpenStruct.new(fork: false, fetch_is_copy: false, stargazers_count: 42, full_name: "facebook/react", pushed_at: Time.current.to_s) }
 
   it "has a default state" do
     Package.new.pending?.must_equal true
