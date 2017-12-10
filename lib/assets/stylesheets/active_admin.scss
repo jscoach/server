@@ -93,3 +93,10 @@
   background: #fff;
   padding: 6px;
 }
+
+// Allow for buttons with different styling on the topbar
+.alt_button a {
+  background: $primary-color !important;
+  border-top-color: $primary-color !important;
+  border-bottom-color: darken(#000, 10%) !important;
+}

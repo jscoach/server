@@ -275,6 +275,18 @@ ActiveAdmin.register Package do
     redirect_to resource_path, notice: "The package transitioned to published."
   end
 
+  member_action :reject_and_next, method: :put do
+    resource.reject!
+    next_resource = Package.accepted.default.first
+    redirect_to resource_path(next_resource), notice: "The package transitioned to published."
+  end
+
+  member_action :publish_and_next, method: :put do
+    resource.publish!
+    next_resource = Package.accepted.default.first
+    redirect_to resource_path(next_resource), notice: "The package transitioned to published."
+  end
+
   action_item :update_metadata, only: :show do
     link_to "Update metadata", update_metadata_sudo_package_path(package), method: :put
   end
@@ -297,6 +309,18 @@ ActiveAdmin.register Package do
       link_to "Publish", publish_sudo_package_path(package), method: :put
     elsif package.published?
       link_to "Unpublish", unpublish_sudo_package_path(package), method: :put
+    end
+  end
+
+  action_item :reject_and_next, only: :show, class: "alt_button" do
+    if package.accepted?
+      link_to "✕", reject_and_next_sudo_package_path(package), method: :put
+    end
+  end
+
+  action_item :publish_and_next, only: :show, class: "alt_button" do
+    if package.accepted?
+      link_to "✔", publish_and_next_sudo_package_path(package), method: :put
     end
   end
 end
