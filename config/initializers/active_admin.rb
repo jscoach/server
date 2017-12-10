@@ -112,7 +112,7 @@ ActiveAdmin.setup do |config|
   # roots for each namespace.
   #
   # Default:
-  config.root_to = 'packages#index'
+  # config.root_to = 'collections#index'
 
   # == Admin Comments
   #

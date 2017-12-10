@@ -2,9 +2,8 @@ class CollectionsMenu
   include JsCoach::SecondaryMenu
 
   def menu_items
-    register "Accepted", url: url_helpers.state_sudo_collections_path(state: "accepted")
+    register "Accepted", url: url_helpers.sudo_collections_path
     register "Published", url: url_helpers.state_sudo_collections_path(state: "published")
-    register "Both", url: url_helpers.sudo_collections_path
   end
 end
 
@@ -22,8 +21,8 @@ ActiveAdmin.register Package, as: "Collections" do
   config.enable_search = true
   config.secondary_menu = CollectionsMenu
 
-  scope :all, default: true
-  scope :default
+  scope :all
+  scope :default, default: true
 
   controller do
     before_action only: :index do
@@ -44,7 +43,7 @@ ActiveAdmin.register Package, as: "Collections" do
     end
 
     def scoped_collection
-      states = params[:state] || [:accepted, :published]
+      states = params[:state] || :accepted
       chain = end_of_association_chain.with_states(states)
       chain = chain.with_collections
 
@@ -82,7 +81,7 @@ ActiveAdmin.register Package, as: "Collections" do
     column :modified_at
   end
 
-  batch_action :publish, if: proc { params[:state] == 'accepted' } do |ids|
+  batch_action :publish, if: proc { params[:state] != 'published' } do |ids|
     batch_action_collection.find(ids).each do |package|
       package.publish!
     end

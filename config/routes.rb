@@ -3,6 +3,8 @@ Rails.application.routes.draw do
 
   # Custom routes for ActiveAdmin
   namespace :sudo do
+    root to: redirect('/sudo/collections'), as: :redirect_sudo_root
+
     resources :packages, constraints: { id: /[^\/]+(?<!\.json)/ } # Allow dots in ID
 
     resources :collections do
