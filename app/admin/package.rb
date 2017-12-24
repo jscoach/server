@@ -277,13 +277,13 @@ ActiveAdmin.register Package do
 
   member_action :reject_and_next, method: :put do
     resource.reject!
-    next_resource = Package.accepted.default.first
+    next_resource = Package.accepted.default.order(modified_at: :desc).first
     redirect_to resource_path(next_resource), notice: "The package transitioned to published."
   end
 
   member_action :publish_and_next, method: :put do
     resource.publish!
-    next_resource = Package.accepted.default.first
+    next_resource = Package.accepted.default.order(modified_at: :desc).first
     redirect_to resource_path(next_resource), notice: "The package transitioned to published."
   end
 
