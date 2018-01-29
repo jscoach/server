@@ -3,7 +3,7 @@ ActiveAdmin.register Package do
 
   # See permitted parameters documentation:
   # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
-  permit_params :name, :repo, :description, :whitelisted, :tweeted, :custom_repo_path, collection_ids: []
+  permit_params :name, :repo, :description, :whitelisted, :tweeted, :custom_repo_path, :readme_max_chars, collection_ids: []
 
   actions :index, :show, :edit, :update, :new, :create
 
@@ -209,6 +209,7 @@ ActiveAdmin.register Package do
             f.input :whitelisted, label: "Whitelisted (relaxes validations)"
             f.input :tweeted
             f.input :collections, collection: Collection.all, as: :check_boxes
+            f.input :readme_max_chars, placeholder: "Defaults to 20.000"
           end
         end
 

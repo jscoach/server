@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171209165656) do
+ActiveRecord::Schema.define(version: 20180129215934) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,7 +51,7 @@ ActiveRecord::Schema.define(version: 20171209165656) do
     t.string "slug", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "collection_id", null: false
+    t.integer "collection_id", null: false
     t.integer "position"
     t.index ["collection_id"], name: "index_categories_on_collection_id"
     t.index ["name", "collection_id"], name: "index_categories_on_name_and_collection_id", unique: true
@@ -92,7 +92,7 @@ ActiveRecord::Schema.define(version: 20171209165656) do
     t.string "slug", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "collection_id", null: false
+    t.integer "collection_id", null: false
     t.integer "position"
     t.index ["collection_id"], name: "index_filters_on_collection_id"
     t.index ["name", "collection_id"], name: "index_filters_on_name_and_collection_id", unique: true
@@ -148,6 +148,7 @@ ActiveRecord::Schema.define(version: 20171209165656) do
     t.datetime "pushed_at"
     t.string "github_license"
     t.string "donation_url"
+    t.integer "readme_max_chars"
     t.index "((((to_tsvector('english'::regconfig, COALESCE((name)::text, ''::text)) || to_tsvector('english'::regconfig, COALESCE(original_description, ''::text))) || to_tsvector('english'::regconfig, COALESCE((original_repo)::text, ''::text))) || to_tsvector('english'::regconfig, COALESCE((keywords)::text, ''::text))))", name: "packages_search", using: :gin
     t.index ["name"], name: "index_packages_on_name", unique: true
     t.index ["slug"], name: "index_packages_on_slug", unique: true

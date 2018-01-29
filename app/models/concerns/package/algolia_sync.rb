@@ -93,7 +93,7 @@ class Package < ActiveRecord::Base
       HTML_Truncator.self_closing_tags = %w(br hr img input)
       HTML_Truncator.punctuation_chars = []
 
-      truncated = HTML_Truncator.truncate(readme, 20_000, options)
+      truncated = HTML_Truncator.truncate(readme, readme_max_chars || 20_000, options)
       truncated = HTML_Truncator.truncate(readme, 10_000, options) if truncated.length > 50_000
 
       # We could always return `truncated` but we avoid it because of possible markup changes
