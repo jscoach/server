@@ -168,6 +168,10 @@ body.active_admin {
     }
   }
 
+  .column{
+    display: inline-block !important;
+  }
+
   // Forms
   form {
     // Apply the new font to submit buttons too
