@@ -43,12 +43,14 @@ module NPM
       profile_page.search(".github a").text().gsub("@", "")
     end
 
+    # TODO: url doesn't work
     # @return Return the number of packages that depend on the given package
     def fetch_dependents(name, limit: 50000, agent: URLHelpers.default_agent)
-      url = "#{ REGISTRY_DOMAIN }/-/_view/dependedUpon?group_level=2&" +
-        "startkey=[\"#{ name }\"]&endkey=[\"#{ name }\",{}]&skip=0&limit=#{ limit }"
-      json = JSON.parse agent.get(url).body
-      json["rows"].length
+      # url = "#{ REGISTRY_DOMAIN }/-/_view/dependedUpon?group_level=4&" +
+      #   "startkey=[\"#{ name }\"]&endkey=[\"#{ name }\",{}]&skip=0&limit=#{ limit }"
+      #
+      # json = JSON.parse agent.get(url).body
+      # json["rows"].length
     end
 
     private
