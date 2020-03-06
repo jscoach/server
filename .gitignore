@@ -19,6 +19,8 @@
 /node_modules
 /yarn-error.log
 .byebug_history
+.idea
 
 # Credentials and other sensitive information
 .env
+ENV

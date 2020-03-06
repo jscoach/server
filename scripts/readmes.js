@@ -34,9 +34,7 @@ function processReadMe (html, pkg) {
   $('.anchor').remove()
 
   // Convert relative URLs and images, removing redundant info, etc.
-  $ = marky($.html(), markyOptions)
-
-  return $.html()
+  return marky($.html(), markyOptions)
 }
 
 module.exports = processReadMe
