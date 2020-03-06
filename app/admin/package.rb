@@ -53,7 +53,7 @@ ActiveAdmin.register Package do
 
     column :readme do |resource|
       num_chars = resource.readme_plain_text.size
-      status_tag(num_chars, num_chars >= Package::README_MIN_LENGTH ? :green : :red)
+      status_tag(num_chars, class: num_chars >= Package::README_MIN_LENGTH ? :green : :red)
     end
 
     column :fork do |resource|
@@ -76,7 +76,6 @@ ActiveAdmin.register Package do
           package.readme_for_algolia.to_s.html_safe
         end
       end
-
       column do
         panel 'Package metadata' do
           attributes_table_for package do
@@ -104,7 +103,7 @@ ActiveAdmin.register Package do
             if package.repo.present? && package.custom_repo_path.present?
               row :custom_repo_path do |resource|
                 link_to resource.custom_repo_path,
-                  "#{ resource.github_url }/tree/master/#{ resource.custom_repo_path }"
+                        "#{ resource.github_url }/tree/master/#{ resource.custom_repo_path }"
               end
             end
 
@@ -119,7 +118,7 @@ ActiveAdmin.register Package do
 
             row :readme do |resource|
               num_chars = resource.readme_plain_text.size
-              status_tag(num_chars, num_chars >= Package::README_MIN_LENGTH ? :green : :red)
+              status_tag(num_chars, class: num_chars >= Package::README_MIN_LENGTH ? :green : :red)
             end
 
             row :latest_release
@@ -129,12 +128,11 @@ ActiveAdmin.register Package do
             row "Downloads" do |resource|
               if resource.last_week_downloads and resource.last_month_downloads
                 "#{ resource.last_week_downloads } last week, " +
-                "#{ resource.last_month_downloads } last month"
+                    "#{ resource.last_month_downloads } last month"
               end
             end
           end
         end
-
         panel 'Other metadata' do
           attributes_table_for package do
             row :keywords do |resource|
@@ -172,6 +170,7 @@ ActiveAdmin.register Package do
           end
         end
       end
+
     end
 
     if package.repo.present? && package.published?
