@@ -1,6 +1,7 @@
 # Provide authentication credentials
 Octokit.configure do |c|
-  c.login = Rails.application.secrets.github_username
+  c.bearer_token = "e105c07fd1eb1d6de85fdac12e7294814b263320"
+  c.client_id = Rails.application.secrets.github_username
   c.password = Rails.application.secrets.github_password || ""
 end
 

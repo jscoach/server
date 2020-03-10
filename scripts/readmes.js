@@ -1,5 +1,5 @@
 'use strict'
-
+let cheerio = require('cheerio')
 let marky = require('marky-markdown')
 
 // Process a README from GitHub
@@ -12,7 +12,6 @@ function processReadMe(html, pkg) {
     prefixHeadingIds: false,   // Prevent DOM id collisions
     serveImagesWithCDN: false, // Use npm's CDN to proxy images over HTTPS
     debug: false,              // console.log() all the things
-    enableHeadingLinkIcons: true,
     // NPM package metadata to rewrite relative URLs, etc.
     package: {
       name: pkg.name,
@@ -22,9 +21,24 @@ function processReadMe(html, pkg) {
         url: `https://github.com/${pkg.repo}`
       }
     },
+    // We can't override the options `marky-markdown` sends down to `markdown-it`.
+    // We are using a fork that enables us to pass a `renderer` option.
+    // In this case we are passing the already rendered HTML from GitHub.
+    renderer: {
+      render(html) {
+        return html
+      }
+    }
   };
 
-  return marky(String(html), markyOptions)
+  // Remove the anchors GitHub adds to titles
+  let $ = cheerio.load(html)
+  $('.anchor').remove()
+
+  // Convert relative URLs and images, removing redundant info, etc.
+  // $ = marky($.html(), markyOptions)
+
+  return marky($.html(), markyOptions)
 }
 
 module.exports = processReadMe;
@@ -36,9 +50,8 @@ if (!module.parent) {
   let readmeFilename = process.argv[2]
   let packageFilename = process.argv[3]
 
-  let readme = fs.readFileSync(readmeFilename)
+  let readme = String(fs.readFileSync(readmeFilename))
   let pkg = JSON.parse(fs.readFileSync(packageFilename))
-
   let result = processReadMe(readme, pkg)
 
   process.stdout.write(result)
