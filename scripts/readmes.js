@@ -1,26 +1,33 @@
 'use strict'
 
-const remark = require('remark');
-const guide = require('remark-preset-lint-markdown-style-guide');
-const Html = require('remark-html');
-const emoji = require('remark-emoji');
-const highlight = require('remark-highlight.js');
+let marky = require('marky-markdown')
 
 // Process a README from GitHub
 // @param `pkg` must have a name, description and repo
-function processReadMe(html, pkg, cb) {
-  return remark()
-    .use(guide)
-    .use(Html)
-    .use(emoji)
-    .use(highlight)
-    .process(html, function (err, file) {
-      cb(String(file))
-    })
+function processReadMe(html, pkg) {
+  // Options for `marky-markdown`, that helps us process READMEs
+  let markyOptions = {
+    sanitize: false,           // False since it's already done by GitHub
+    highlightSyntax: false,    // Also done by GitHub
+    prefixHeadingIds: false,   // Prevent DOM id collisions
+    serveImagesWithCDN: false, // Use npm's CDN to proxy images over HTTPS
+    debug: false,              // console.log() all the things
+    enableHeadingLinkIcons: true,
+    // NPM package metadata to rewrite relative URLs, etc.
+    package: {
+      name: pkg.name,
+      description: pkg.description,
+      repository: {
+        type: 'git',
+        url: `https://github.com/${pkg.repo}`
+      }
+    },
+  };
 
+  return marky(String(html), markyOptions)
 }
 
-module.exports = processReadMe
+module.exports = processReadMe;
 
 // If being executed from the command-line
 if (!module.parent) {
@@ -32,9 +39,7 @@ if (!module.parent) {
   let readme = fs.readFileSync(readmeFilename)
   let pkg = JSON.parse(fs.readFileSync(packageFilename))
 
-  processReadMe(readme, pkg, function (result) {
-    process.stdout.write(result)
-  })
+  let result = processReadMe(readme, pkg)
 
-
+  process.stdout.write(result)
 }

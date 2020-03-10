@@ -2,7 +2,7 @@ class Filter < ActiveRecord::Base
   module ReactNative
     extend ActiveSupport::Concern
 
-    NATIVE_DIRECTORY_URL = "https://raw.githubusercontent.com/react-community/native-directory/master/build/data.json"
+    NATIVE_DIRECTORY_URL = "https://reactnative.directory/api/libraries"
 
     ANDROID_LANGUAGES = ["Java"]
     IOS_LANGUAGES = ["Objective-C", "Swift"]
