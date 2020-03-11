@@ -40,7 +40,7 @@ function processReadMe(html, pkg) {
     }
   };
 
-  html = replaceRelativeAssets(html, `https://raw.githubusercontent.com/${pkg.repo}/master`);
+  // html = replaceRelativeAssets(html, `https://raw.githubusercontent.com/${pkg.repo}/master`);
 
   // Remove the anchors GitHub adds to titles
   let $ = cheerio.load(html)
