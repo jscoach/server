@@ -6,10 +6,14 @@ let marky = require('marky-markdown')
  * Replace all relative urls in a given HTML string with absolute
  **/
 function replaceRelativeAssets(str, url) {
-  return str.replace(replaceRelativeAssets.rx, '$1' + url + '/$4')
+  return str
+    .replace(replaceRelativeAssets.rx, '$1' + url + '/$4')
+    .replace(replaceRelativeAssets.rxForDot, '$1' + url + '/$3')
 }
 
-replaceRelativeAssets.rx = /((src|codebase|cite|background|action|profile|formaction|icon|manifest|archive)=["'])((([.]+(\/))|(?:\/)|(?=#)))*?(?!\/)(\.\/)?/g
+replaceRelativeAssets.rx = /((href|src|codebase|cite|background|cite|action|profile|formaction|icon|manifest|archive)=["'])((([.]+(\/))|(?:\/)|(?=#)))(?!\/)(\.\/)?/g
+replaceRelativeAssets.rxForDot = /((href|src|codebase|cite|background|cite|action|profile|formaction|icon|manifest|archive)=["'])(\.(?!\/))/g
+
 
 // Process a README from GitHub
 // @param `pkg` must have a name, description and repo
@@ -40,15 +44,13 @@ function processReadMe(html, pkg) {
     }
   };
 
-  // html = replaceRelativeAssets(html, `https://raw.githubusercontent.com/${pkg.repo}/master`);
+  html = replaceRelativeAssets(html, `https://raw.githubusercontent.com/${pkg.repo}/master`);
 
   // Remove the anchors GitHub adds to titles
   let $ = cheerio.load(html)
   $('.anchor').remove()
 
   // Convert relative URLs and images, removing redundant info, etc.
-  // $ = marky($.html(), markyOptions)
-
   return marky($.html(), markyOptions)
 }
 
