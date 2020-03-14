@@ -5,15 +5,14 @@ let marky = require('marky-markdown')
 /**
  * Replace all relative urls in a given HTML string with absolute
  **/
-function replaceRelativeAssets(str, url) {
+function replaceRelativePath(str, url, isHref = false) {
+  const attrs = `${isHref ? 'href' : 'src|codebase|cite|background|cite|action|profile|formaction|icon|manifest|archive'}`;
+  const rx = new RegExp(`((${attrs})=["'])((([.]+(\\/))|(?:\\/)|(?=#)))(?!\\/)(\\.\\/)?`, "g");
+  const rxForDot = new RegExp(`((${attrs})=["'])(\\.(?!\\/))`, "g");
   return str
-    .replace(replaceRelativeAssets.rx, '$1' + url + '/$4')
-    .replace(replaceRelativeAssets.rxForDot, '$1' + url + '/$3')
+    .replace(new RegExp(rx, "g"), '$1' + url + `${!isHref ? "/" : ""}` + '$4')
+    .replace(rxForDot, '$1' + url + `${!isHref ? "/" : ""}` + '$3')
 }
-
-replaceRelativeAssets.rx = /((href|src|codebase|cite|background|cite|action|profile|formaction|icon|manifest|archive)=["'])((([.]+(\/))|(?:\/)|(?=#)))(?!\/)(\.\/)?/g
-replaceRelativeAssets.rxForDot = /((href|src|codebase|cite|background|cite|action|profile|formaction|icon|manifest|archive)=["'])(\.(?!\/))/g
-
 
 // Process a README from GitHub
 // @param `pkg` must have a name, description and repo
@@ -44,7 +43,8 @@ function processReadMe(html, pkg) {
     }
   };
 
-  html = replaceRelativeAssets(html, `https://raw.githubusercontent.com/${pkg.repo}/master`);
+  html = replaceRelativePath(html, `https://raw.githubusercontent.com/${pkg.repo}/master`);
+  html = replaceRelativePath(html, `https://github.com/${pkg.repo}`, true);
 
   // Remove the anchors GitHub adds to titles
   let $ = cheerio.load(html)
