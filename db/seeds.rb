@@ -17,6 +17,7 @@ Collection.find_or_create_by(name: "Webpack").update(position: 3)
 Collection.find_or_create_by(name: "Babel").update(position: 4)
 Collection.find_or_create_by(name: "PostCSS").update(position: 5)
 Collection.find_or_create_by(name: "Vue").update(position: 6)
+Collection.find_or_create_by(name: "Angular").update(position: 7)
 Collection.find_or_create_by(name: "Browserify").update(position: nil, default: false)
 Collection.find_or_create_by(name: "Reactive").update(position: nil, default: false)
 
