@@ -1,6 +1,7 @@
 class Filter < ActiveRecord::Base
   include ReactNative
   include React
+  include Vue
 
   extend FriendlyId
 
@@ -19,6 +20,8 @@ class Filter < ActiveRecord::Base
         filters |= discover_react_native(collection, pkg)
       when "react"
         filters |= discover_react(collection, pkg)
+      when "vue"
+        filters |= discover_vue(collection, pkg)
       end
     end
     filters

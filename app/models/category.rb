@@ -2,6 +2,7 @@ class Category < ActiveRecord::Base
   include Postcss
   include ReactNative
   include React
+  include Vue
 
   extend FriendlyId
 
@@ -22,6 +23,8 @@ class Category < ActiveRecord::Base
         categories |= discover_react_native(collection, pkg)
       when "react"
         categories |= discover_react(collection, pkg)
+      when "vue"
+        categories |= discover_vue(collection, pkg)
       end
     end
     categories

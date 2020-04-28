@@ -16,12 +16,14 @@ Collection.find_or_create_by(name: "React VR").update(position: 2)
 Collection.find_or_create_by(name: "Webpack").update(position: 3)
 Collection.find_or_create_by(name: "Babel").update(position: 4)
 Collection.find_or_create_by(name: "PostCSS").update(position: 5)
+Collection.find_or_create_by(name: "vue").update(position: 6)
 Collection.find_or_create_by(name: "Browserify").update(position: nil, default: false)
 Collection.find_or_create_by(name: "Reactive").update(position: nil, default: false)
 
 JsCoach.log "Default collections created or updated."
 
 # Create filters
+Filter.find_or_create_by(collection: Collection.find("vue"), name: "Inline Styles").update(position: 0)
 Filter.find_or_create_by(collection: Collection.find("react"), name: "Inline Styles").update(position: 0)
 Filter.find_or_create_by(collection: Collection.find("react-native"), name: "iOS").update(position: 0)
 Filter.find_or_create_by(collection: Collection.find("react-native"), name: "Android").update(position: 1)
@@ -79,5 +81,26 @@ Category.find_or_create_by(collection: Collection.find("react"), name: "Setup").
 Category.find_or_create_by(collection: Collection.find("react"), name: "Styling").update(position: 17)
 Category.find_or_create_by(collection: Collection.find("react"), name: "Testing").update(position: 18)
 Category.find_or_create_by(collection: Collection.find("react"), name: "Transforms").update(position: 19)
+# Vue categories
+Category.find_or_create_by(collection: Collection.find("vue"), name: "A11y").update(position: 0)
+Category.find_or_create_by(collection: Collection.find("vue"), name: "Animation").update(position: 1)
+Category.find_or_create_by(collection: Collection.find("vue"), name: "Boilerplates").update(position: 2)
+Category.find_or_create_by(collection: Collection.find("vue"), name: "Data Flow").update(position: 3)
+Category.find_or_create_by(collection: Collection.find("vue"), name: "Data Viz").update(position: 4)
+Category.find_or_create_by(collection: Collection.find("vue"), name: "Forms").update(position: 5)
+Category.find_or_create_by(collection: Collection.find("vue"), name: "I18n").update(position: 6)
+Category.find_or_create_by(collection: Collection.find("vue"), name: "Icons").update(position: 7)
+Category.find_or_create_by(collection: Collection.find("vue"), name: "Images").update(position: 8)
+Category.find_or_create_by(collection: Collection.find("vue"), name: "Layout").update(position: 9)
+Category.find_or_create_by(collection: Collection.find("vue"), name: "Modals").update(position: 10)
+Category.find_or_create_by(collection: Collection.find("vue"), name: "Players").update(position: 11)
+Category.find_or_create_by(collection: Collection.find("vue"), name: "Practices").update(position: 12)
+Category.find_or_create_by(collection: Collection.find("vue"), name: "Rendering").update(position: 13)
+Category.find_or_create_by(collection: Collection.find("vue"), name: "Responsive").update(position: 14)
+Category.find_or_create_by(collection: Collection.find("vue"), name: "Routers").update(position: 15)
+Category.find_or_create_by(collection: Collection.find("vue"), name: "Setup").update(position: 16)
+Category.find_or_create_by(collection: Collection.find("vue"), name: "Styling").update(position: 17)
+Category.find_or_create_by(collection: Collection.find("vue"), name: "Testing").update(position: 18)
+Category.find_or_create_by(collection: Collection.find("vue"), name: "Transforms").update(position: 19)
 
 JsCoach.log "Default categories created or updated."

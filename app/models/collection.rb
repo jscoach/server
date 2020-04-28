@@ -11,6 +11,7 @@ class Collection < ActiveRecord::Base
 
   def self.discover(pkg)
     collections = []
+    collections << Collection.find("vue")          if self.assign_vue? pkg
     collections << Collection.find("react-vr")     if self.assign_react_vr? pkg
     collections << Collection.find("react-native") if self.assign_react_native? pkg
     collections << Collection.find("react")        if self.assign_react? pkg
@@ -53,6 +54,13 @@ class Collection < ActiveRecord::Base
     return true if pkg.name.downcase.include? "react-"
     return true if pkg.name.downcase.ends_with? "-react"
     return true if pkg.name.downcase.include? "electrode-"
+    return false
+  end
+
+  def self.assign_vue?(pkg)
+    return true if pkg.keywords.any? { |k| k =~ /^(vue[\-\s]?component)/ }
+    return true if pkg.name.downcase.include? "vue-"
+    return true if pkg.name.downcase.ends_with? "-vue"
     return false
   end
 
