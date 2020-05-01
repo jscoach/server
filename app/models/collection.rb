@@ -12,6 +12,7 @@ class Collection < ActiveRecord::Base
   def self.discover(pkg)
     collections = []
     collections << Collection.find("vue")          if self.assign_vue? pkg
+    collections << Collection.find("angular")      if self.assign_angular? pkg
     collections << Collection.find("react-vr")     if self.assign_react_vr? pkg
     collections << Collection.find("react-native") if self.assign_react_native? pkg
     collections << Collection.find("react")        if self.assign_react? pkg
@@ -61,6 +62,22 @@ class Collection < ActiveRecord::Base
     return true if pkg.keywords.any? { |k| k =~ /^(vue[\-\s]?component)/ }
     return true if pkg.name.downcase.include? "vue-"
     return true if pkg.name.downcase.ends_with? "-vue"
+    return true if pkg.keywords.any? { |k| k =~ /^(vuex[\-\s]?component)/ }
+    return true if pkg.name.downcase.include? "vuex-"
+    return true if pkg.name.downcase.ends_with? "-vuex"
+    return false
+  end
+
+  def self.assign_angular?(pkg)
+    return true if pkg.keywords.any? { |k| k =~ /^(angular[\-\s]?component)/ }
+    return true if pkg.name.downcase.include? "angular-"
+    return true if pkg.name.downcase.ends_with? "-angular"
+    return true if pkg.keywords.any? { |k| k =~ /^(ng[\-\s]?component)/ }
+    return true if pkg.name.downcase.include? "ng-"
+    return true if pkg.name.downcase.ends_with? "-ng"
+    return true if pkg.keywords.any? { |k| k =~ /^(ngx[\-\s]?component)/ }
+    return true if pkg.name.downcase.include? "ngx-"
+    return true if pkg.name.downcase.ends_with? "-ngx"
     return false
   end
 

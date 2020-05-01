@@ -4,7 +4,7 @@
 # Create default admin user
 if Rails.env.development?
   AdminUser.create_with(password: 'password', password_confirmation: 'password')
-    .find_or_create_by(email: 'admin@js.coach')
+      .find_or_create_by(email: 'admin@js.coach')
 
   JsCoach.log "Default admin user created."
 end
@@ -25,6 +25,7 @@ JsCoach.log "Default collections created or updated."
 
 # Create filters
 Filter.find_or_create_by(collection: Collection.find("vue"), name: "Inline Styles").update(position: 0)
+Filter.find_or_create_by(collection: Collection.find("angular"), name: "Inline Styles").update(position: 0)
 Filter.find_or_create_by(collection: Collection.find("react"), name: "Inline Styles").update(position: 0)
 Filter.find_or_create_by(collection: Collection.find("react-native"), name: "iOS").update(position: 0)
 Filter.find_or_create_by(collection: Collection.find("react-native"), name: "Android").update(position: 1)
@@ -103,5 +104,27 @@ Category.find_or_create_by(collection: Collection.find("vue"), name: "Setup").up
 Category.find_or_create_by(collection: Collection.find("vue"), name: "Styling").update(position: 17)
 Category.find_or_create_by(collection: Collection.find("vue"), name: "Testing").update(position: 18)
 Category.find_or_create_by(collection: Collection.find("vue"), name: "Transforms").update(position: 19)
+# Angular categories
+Category.find_or_create_by(collection: Collection.find("angular"), name: "A11y").update(position: 0)
+Category.find_or_create_by(collection: Collection.find("angular"), name: "Animation").update(position: 1)
+Category.find_or_create_by(collection: Collection.find("angular"), name: "Boilerplates").update(position: 2)
+Category.find_or_create_by(collection: Collection.find("angular"), name: "Data Flow").update(position: 3)
+Category.find_or_create_by(collection: Collection.find("angular"), name: "Data Viz").update(position: 4)
+Category.find_or_create_by(collection: Collection.find("angular"), name: "Forms").update(position: 5)
+Category.find_or_create_by(collection: Collection.find("angular"), name: "I18n").update(position: 6)
+Category.find_or_create_by(collection: Collection.find("angular"), name: "Icons").update(position: 7)
+Category.find_or_create_by(collection: Collection.find("angular"), name: "Images").update(position: 8)
+Category.find_or_create_by(collection: Collection.find("angular"), name: "Layout").update(position: 9)
+Category.find_or_create_by(collection: Collection.find("angular"), name: "Modals").update(position: 10)
+Category.find_or_create_by(collection: Collection.find("angular"), name: "Players").update(position: 11)
+Category.find_or_create_by(collection: Collection.find("angular"), name: "Practices").update(position: 12)
+Category.find_or_create_by(collection: Collection.find("angular"), name: "Rendering").update(position: 13)
+Category.find_or_create_by(collection: Collection.find("angular"), name: "Responsive").update(position: 14)
+Category.find_or_create_by(collection: Collection.find("angular"), name: "Routers").update(position: 15)
+Category.find_or_create_by(collection: Collection.find("angular"), name: "Setup").update(position: 16)
+Category.find_or_create_by(collection: Collection.find("angular"), name: "Styling").update(position: 17)
+Category.find_or_create_by(collection: Collection.find("angular"), name: "Testing").update(position: 18)
+Category.find_or_create_by(collection: Collection.find("angular"), name: "Transforms").update(position: 19)
+
 
 JsCoach.log "Default categories created or updated."
