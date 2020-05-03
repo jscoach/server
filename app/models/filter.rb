@@ -22,6 +22,8 @@ class Filter < ActiveRecord::Base
         filters |= discover_react(collection, pkg)
       when "vue"
         filters |= discover_vue(collection, pkg)
+      when "angular"
+        filters |= discover_vue(collection, pkg)
       end
     end
     filters
