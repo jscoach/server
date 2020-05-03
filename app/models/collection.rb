@@ -70,9 +70,9 @@ class Collection < ActiveRecord::Base
   def self.assign_angular?(pkg)
     return true if pkg.name.downcase.include? "angular-"
     return true if pkg.name.downcase.ends_with? "-angular"
-    return true if pkg.name.downcase.include? "ng-"
+    return true if pkg.name.downcase.start_with? "ng-"
     return true if pkg.name.downcase.ends_with? "-ng"
-    return true if pkg.name.downcase.include? "ngx-"
+    return true if pkg.name.downcase.start_with? "ngx-"
     return true if pkg.name.downcase.ends_with? "-ngx"
     return false
   end
