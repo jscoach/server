@@ -14,7 +14,7 @@ class PackageDecorator < Draper::Decorator
     link = "https://js.coach/package/#{ self.name }"
     descMaxLength = tweetMaxLength - linkLength - head.length - 2 # spaces
     desc = desc.first(descMaxLength - 1) + "…" if desc.length > descMaxLength
-
-    return "#{ head } #{ desc } #{ link }"
+    hashtag = "#javascript"
+    return "#{ head } #{ desc } #{ link } #{hashtag}"
   end
 end
