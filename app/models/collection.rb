@@ -11,16 +11,17 @@ class Collection < ActiveRecord::Base
 
   def self.discover(pkg)
     collections = []
-    collections << Collection.find("vue")          if self.assign_vue? pkg
-    collections << Collection.find("angular")      if self.assign_angular? pkg
-    collections << Collection.find("react-vr")     if self.assign_react_vr? pkg
+    collections << Collection.find("vue") if self.assign_vue? pkg
+    collections << Collection.find("vanilla-js") if self.assign_vanilla_js? pkg
+    collections << Collection.find("angular") if self.assign_angular? pkg
+    collections << Collection.find("react-vr") if self.assign_react_vr? pkg
     collections << Collection.find("react-native") if self.assign_react_native? pkg
-    collections << Collection.find("react")        if self.assign_react? pkg
-    collections << Collection.find("webpack")      if self.assign_webpack? pkg
-    collections << Collection.find("browserify")   if self.assign_browserify? pkg
-    collections << Collection.find("babel")        if self.assign_babel? pkg
-    collections << Collection.find("postcss")      if self.assign_postcss? pkg
-    collections << Collection.find("reactive")     if self.assign_reactive? pkg
+    collections << Collection.find("react") if self.assign_react? pkg
+    collections << Collection.find("webpack") if self.assign_webpack? pkg
+    collections << Collection.find("browserify") if self.assign_browserify? pkg
+    collections << Collection.find("babel") if self.assign_babel? pkg
+    collections << Collection.find("postcss") if self.assign_postcss? pkg
+    collections << Collection.find("reactive") if self.assign_reactive? pkg
     collections
   end
 
@@ -37,13 +38,13 @@ class Collection < ActiveRecord::Base
     deps << manifest.fetch("peerDependencies", {}).keys
 
     return true if deps.include? "react-vr"
-    return true if [ pkg.name, pkg.description ].any? { |prop| prop.downcase =~ /react\-?vr\-/i }
+    return true if [pkg.name, pkg.description].any? { |prop| prop.downcase =~ /react\-?vr\-/i }
     return true if pkg.keywords.any? { |k| k =~ /^(react[\-\s]?vr)/ }
     return false
   end
 
   def self.assign_react_native?(pkg)
-    return true if [ pkg.name, pkg.description ].any? { |prop| prop.downcase =~ /react\-?native/i }
+    return true if [pkg.name, pkg.description].any? { |prop| prop.downcase =~ /react\-?native/i }
     return true if pkg.keywords.any? { |k| k =~ /^(react[\-\s]?native)/ }
     return false
   end
@@ -55,6 +56,13 @@ class Collection < ActiveRecord::Base
     return true if pkg.name.downcase.include? "react-"
     return true if pkg.name.downcase.ends_with? "-react"
     return true if pkg.name.downcase.include? "electrode-"
+    return false
+  end
+
+  def self.assign_vanilla_js?(pkg)
+    return true if pkg.keywords.any? { |k| k =~ /^(js[\-\s]?)/ }
+    return true if pkg.name.downcase.include? "js-"
+    return true if pkg.name.downcase.ends_with? "-js"
     return false
   end
 

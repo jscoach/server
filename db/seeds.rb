@@ -18,6 +18,7 @@ Collection.find_or_create_by(name: "Babel").update(position: 4)
 Collection.find_or_create_by(name: "PostCSS").update(position: 5)
 Collection.find_or_create_by(name: "Vue").update(position: 6)
 Collection.find_or_create_by(name: "Angular").update(position: 7)
+Collection.find_or_create_by(name: "Vanilla JS").update(position: 8)
 Collection.find_or_create_by(name: "Browserify").update(position: nil, default: false)
 Collection.find_or_create_by(name: "Reactive").update(position: nil, default: false)
 
@@ -25,6 +26,7 @@ JsCoach.log "Default collections created or updated."
 
 # Create filters
 Filter.find_or_create_by(collection: Collection.find("vue"), name: "Inline Styles").update(position: 0)
+Filter.find_or_create_by(collection: Collection.find("vanilla-js"), name: "Inline Styles").update(position: 0)
 Filter.find_or_create_by(collection: Collection.find("angular"), name: "Inline Styles").update(position: 0)
 Filter.find_or_create_by(collection: Collection.find("react"), name: "Inline Styles").update(position: 0)
 Filter.find_or_create_by(collection: Collection.find("react-native"), name: "iOS").update(position: 0)
@@ -125,6 +127,28 @@ Category.find_or_create_by(collection: Collection.find("angular"), name: "Setup"
 Category.find_or_create_by(collection: Collection.find("angular"), name: "Styling").update(position: 17)
 Category.find_or_create_by(collection: Collection.find("angular"), name: "Testing").update(position: 18)
 Category.find_or_create_by(collection: Collection.find("angular"), name: "Transforms").update(position: 19)
+
+# VanillaJS categories
+Category.find_or_create_by(collection: Collection.find("vanilla-js"), name: "A11y").update(position: 0)
+Category.find_or_create_by(collection: Collection.find("vanilla-js"), name: "Animation").update(position: 1)
+Category.find_or_create_by(collection: Collection.find("vanilla-js"), name: "Boilerplates").update(position: 2)
+Category.find_or_create_by(collection: Collection.find("vanilla-js"), name: "Data Flow").update(position: 3)
+Category.find_or_create_by(collection: Collection.find("vanilla-js"), name: "Data Viz").update(position: 4)
+Category.find_or_create_by(collection: Collection.find("vanilla-js"), name: "Forms").update(position: 5)
+Category.find_or_create_by(collection: Collection.find("vanilla-js"), name: "I18n").update(position: 6)
+Category.find_or_create_by(collection: Collection.find("vanilla-js"), name: "Icons").update(position: 7)
+Category.find_or_create_by(collection: Collection.find("vanilla-js"), name: "Images").update(position: 8)
+Category.find_or_create_by(collection: Collection.find("vanilla-js"), name: "Layout").update(position: 9)
+Category.find_or_create_by(collection: Collection.find("vanilla-js"), name: "Modals").update(position: 10)
+Category.find_or_create_by(collection: Collection.find("vanilla-js"), name: "Players").update(position: 11)
+Category.find_or_create_by(collection: Collection.find("vanilla-js"), name: "Practices").update(position: 12)
+Category.find_or_create_by(collection: Collection.find("vanilla-js"), name: "Rendering").update(position: 13)
+Category.find_or_create_by(collection: Collection.find("vanilla-js"), name: "Responsive").update(position: 14)
+Category.find_or_create_by(collection: Collection.find("vanilla-js"), name: "Routers").update(position: 15)
+Category.find_or_create_by(collection: Collection.find("vanilla-js"), name: "Setup").update(position: 16)
+Category.find_or_create_by(collection: Collection.find("vanilla-js"), name: "Styling").update(position: 17)
+Category.find_or_create_by(collection: Collection.find("vanilla-js"), name: "Testing").update(position: 18)
+Category.find_or_create_by(collection: Collection.find("vanilla-js"), name: "Transforms").update(position: 19)
 
 
 JsCoach.log "Default categories created or updated."
