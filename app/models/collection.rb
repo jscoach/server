@@ -13,6 +13,7 @@ class Collection < ActiveRecord::Base
     collections = []
     collections << Collection.find("vue") if self.assign_vue? pkg
     collections << Collection.find("vanilla-js") if self.assign_vanilla_js? pkg
+    collections << Collection.find("node") if self.assign_node? pkg
     collections << Collection.find("angular") if self.assign_angular? pkg
     collections << Collection.find("react-vr") if self.assign_react_vr? pkg
     collections << Collection.find("react-native") if self.assign_react_native? pkg
@@ -63,6 +64,13 @@ class Collection < ActiveRecord::Base
     return true if pkg.keywords.any? { |k| k =~ /^(js[\-\s]?)/ }
     return true if pkg.name.downcase.include? "js-"
     return true if pkg.name.downcase.ends_with? "-js"
+    return false
+  end
+
+  def self.assign_node?(pkg)
+    return true if pkg.keywords.any? { |k| k =~ /^(node[\-\s]?)/ }
+    return true if pkg.name.downcase.include? "node-"
+    return true if pkg.name.downcase.ends_with? "-node"
     return false
   end
 

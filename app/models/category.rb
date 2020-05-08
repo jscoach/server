@@ -5,6 +5,7 @@ class Category < ActiveRecord::Base
   include Vue
   include VanillaJs
   include Angular
+  include Node
 
   extend FriendlyId
 
@@ -31,6 +32,8 @@ class Category < ActiveRecord::Base
         categories |= discover_angular(collection, pkg)
       when "vanilla-js"
         categories |= discover_vanilla_js(collection, pkg)
+      when "node"
+        categories |= discover_node(collection, pkg)
       end
     end
     categories
