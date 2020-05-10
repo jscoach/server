@@ -2,24 +2,6 @@ class Category < ActiveRecord::Base
   module VanillaJs
     extend ActiveSupport::Concern
 
-    KEYWORDS_TO_IGNORE = [
-      "android",
-      "component",
-      "ios",
-      "mobile",
-      "component",
-      "app",
-      "application",
-      "javascript",
-      "isomorphic",
-      "universal",
-      "native",
-      "tool",
-      "framework",
-      "facebook",
-      "backbone",
-      "functional"
-    ]
 
     class_methods do
       def discover_vanilla_js(collection, pkg)
@@ -27,9 +9,6 @@ class Category < ActiveRecord::Base
         keywords = pkg.keywords.to_a
 
         keywords.map(&:downcase).each do |keyword|
-          # Bypass the ones that are safe to ignore
-          next if KEYWORDS_TO_IGNORE.map(&:singularize).include? keyword.gsub(" ", "-").singularize
-
           # Unique matching
           case keyword
           when /standard\-?style/

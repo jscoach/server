@@ -2,34 +2,12 @@ class Category < ActiveRecord::Base
   module Node
     extend ActiveSupport::Concern
 
-    KEYWORDS_TO_IGNORE = [
-      "android",
-      "component",
-      "ios",
-      "mobile",
-      "component",
-      "app",
-      "application",
-      "javascript",
-      "isomorphic",
-      "universal",
-      "native",
-      "tool",
-      "framework",
-      "facebook",
-      "backbone",
-      "functional"
-    ]
-
     class_methods do
       def discover_node(collection, pkg)
         categories = []
         keywords = pkg.keywords.to_a
 
         keywords.map(&:downcase).each do |keyword|
-          # Bypass the ones that are safe to ignore
-          next if KEYWORDS_TO_IGNORE.map(&:singularize).include? keyword.gsub(" ", "-").singularize
-
           # Everything that matches should have additional category
           categories << "a11y" if keyword.singularize =~ /a11y|accessibility/
           categories << "animation" if keyword.singularize =~ /animate|animation/
