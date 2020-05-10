@@ -61,14 +61,12 @@ class Collection < ActiveRecord::Base
   end
 
   def self.assign_vanilla_js?(pkg)
-    return true if pkg.keywords.any? { |k| k =~ /^(js[\-\s]?)/ }
     return true if pkg.name.downcase.start_with? "js-"
     return true if pkg.name.downcase.ends_with? "-js"
     return false
   end
 
   def self.assign_node?(pkg)
-    return true if pkg.keywords.any? { |k| k =~ /^(node[\-\s]?)/ }
     return true if pkg.name.downcase.start_with? "node-"
     return true if pkg.name.downcase.ends_with? "-node"
     return false
